@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/style.css" type="text/css">
+  </head>
+
+  <body>
+    <div id="container">
+
+      <div id="header">
+        <div id="heading"><a href="/">digip.org</a></div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="topline">
+        <div id="caption">
+          <h1>
+            {%- if caption -%}
+            {{ caption }}
+            {%- else -%}
+            {{ title }}
+            {%- endif -%}
+          </h1>
+        </div>
+        <div id="navi">
+          <ul>
+            {% for project in index.projects %}
+            <li><a href="/{{ project.slug }}/">{{ project.name }}</a></li>
+            {%- if not loop.last %} |{% endif -%}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+
+      <div id="news">
+        {% block news %}{% endblock %}
+      </div>
+
+      <div class="clear"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "util.html" import news_list %}
+
+{% set title = "digip.org" %}
+
+{% block content %}
+
+<a name="projects"></a>
+<div class="section">
+  <h2>Projects</h2>
+  <p>
+    Welcome to <a href="http://www.digip.org/">digip.org</a>. The
+    following projects are hosted here:
+  </p>
+  <dl>
+    {% for project in index.projects %}
+    <dt><a href="/{{ project.slug }}/">{{ project.name }}</a></dt>
+    <dd>{{ project.description }}</dd>
+    {% endfor %}
+  </dl>
+</div>
+
+<a name="about"></a>
+<div class="section">
+  <h2>About</h2>
+  <p>
+    I am Petri Lehtinen, sometimes also known as "akheron" or
+    "akhern". To contact me, drop an email to {{ "petri@digip.org"|urlize }}
+    or /msg akheron in IRCnet or freenode.
+  </p>
+</div>
+{% endblock %}

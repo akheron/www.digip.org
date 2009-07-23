@@ -1,0 +1,16 @@
+{% macro news_list(news, level='3') %}
+{% for item in news %}
+<div class="subsection">
+  <h{{ level }}>{{ item.title }}</h{{ level }}>
+  <div class="info">
+    Posted in <a href="/{{ item.project.slug }}/">
+      {{ item.project.name }}
+    </a>
+    on {{ item.date }}
+  </div>
+  <div class="news">
+    {{ item.text }}
+  </div>
+</div>
+{% endfor %}
+{% endmacro %}

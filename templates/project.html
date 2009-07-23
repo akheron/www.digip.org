@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "util.html" import news_list %}
+
+{% set caption = project.name %}
+{% set title = "%s &ndash; %s" % (project.name, project.description) %}
+
+{% block news %}
+{% if project.news -%}
+<a name="news"></a>
+<div class="section">
+  <h2>News</h2>
+  {% if project.news != project.all_news %}
+  <p>
+    For old news, see the <a href="archive/">{{ project.name }} news
+      archive</a>.
+  </p>
+  {% endif %}
+  {{ news_list(project.news) }}
+</div>
+{%- endif %}
+{% endblock %}
+
+{% block content %}
+<div class="section">
+  {{ project.index }}
+</div>
+{% endblock %}
