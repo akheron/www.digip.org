@@ -3,6 +3,7 @@ import views
 import models
 
 index_file = 'index.html'
+autoreload = ['pagedata/']
 
 files = stango.files(('', views.index))
 for project in models.projects.values():
