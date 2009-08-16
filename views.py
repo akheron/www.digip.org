@@ -7,13 +7,7 @@ def index():
     return render_template('index.html', index=models.index)
 
 def project(project):
-    return render_template(
-        'project.html',
-        index=models.index,
-        project=project)
+    return render_template('project.html', index=models.index, project=project)
 
-def releases(project):
-    return ''
-
-def news_archive(name):
-    return 'TODO'
+def redirect(url):
+    return render_template('redirect.html', url=url)
