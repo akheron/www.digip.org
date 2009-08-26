@@ -3,8 +3,20 @@
     padding: 0;
 }
 
-p, ul, ol {
+p, ul, ol, table, blockquote {
     margin-bottom: 1em;
+}
+
+th, td {
+    padding: 0 10px 3px 0;
+}
+
+th {
+    text-align: left;
+}
+
+blockquote {
+    margin-left: 2em;
 }
 
 li {

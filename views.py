@@ -7,7 +7,9 @@ def index():
     return render_template('index.html', index=models.index)
 
 def project(project):
-    return render_template('project.html', index=models.index, project=project)
+    return render_template('project.html',
+                           index=models.index,
+                           project=models.projects[project])
 
 def redirect(url):
     return render_template('redirect.html', url=url)

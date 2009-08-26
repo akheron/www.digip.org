@@ -10,7 +10,11 @@ files = stango.files(
     ('petri/', views.redirect, {'url': '/'}),
 )
 
-for project in models.projects.values():
-    files += stango.files(
-        ('%s/' % project.slug, views.project, {'project': project}),
-    )
+files += stango.files(
+    ('jansson/', views.project, {'project': 'jansson'}),
+    ('jansson/doc/', views.redirect, {'url': '1.0/'}),
+)
+
+files += stango.files(
+    ('stango/', views.project, {'project': 'stango'}),
+)

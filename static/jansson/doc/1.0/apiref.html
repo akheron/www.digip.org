@@ -1,0 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API Reference &mdash; Jansson v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Jansson v1.0 documentation" href="index.html" />
+    <link rel="prev" title="Overview" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Jansson v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>All declarations are in <tt class="docutils literal"><span class="pre">jansson.h</span></tt>, so it&#8217;s enough to</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;jansson.h&gt;</span>
+</pre></div>
+</div>
+<p>in each source file.</p>
+<p>All constants are prefixed <tt class="docutils literal"><span class="pre">JSON_</span></tt> and other identifiers with
+<tt class="docutils literal"><span class="pre">json_</span></tt>. Type names are suffixed with <tt class="docutils literal"><span class="pre">_t</span></tt> and <tt class="docutils literal"><span class="pre">typedef</span></tt>&#8216;d so
+that the <tt class="docutils literal"><span class="pre">struct</span></tt> keyword need not be used.</p>
+</div>
+<div class="section" id="value-representation">
+<h2>Value Representation<a class="headerlink" href="#value-representation" title="Permalink to this headline">¶</a></h2>
+<p>The JSON specification (<span class="target" id="index-0"></span><a class="reference external" href="http://tools.ietf.org/html/rfc4627.html"><strong>RFC 4627</strong></a>) defines the following data types:
+<em>object</em>, <em>array</em>, <em>string</em>, <em>number</em>, <em>boolean</em>, and <em>null</em>. JSON
+types are used dynamically; arrays and objects can hold any other data
+type, including themselves. For this reason, Jansson&#8217;s type system is
+also dynamic in nature. There&#8217;s one C type to represent all JSON
+values, and this structure knows the type of the JSON value it holds.</p>
+<dl class="ctype">
+<dt id="json_t">
+<!--[json_t]--><tt class="descname">json_t</tt><a class="headerlink" href="#json_t" title="Permalink to this definition">¶</a></dt>
+<dd>This data structure is used throughout the library to represent all
+JSON values. It always contains the type of the JSON value it holds
+and the value&#8217;s reference count. The rest depends on the type of the
+value.</dd></dl>
+
+<p>Objects of <a title="json_t" class="reference internal" href="#json_t"><tt class="xref docutils literal"><span class="pre">json_t</span></tt></a> are always used through a pointer. There
+are APIs for querying the type, manipulating the reference count, and
+for constructing and manipulating values of different types.</p>
+<div class="section" id="type">
+<h3>Type<a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h3>
+<p>The type of a JSON value is queried and tested using the following
+functions:</p>
+<dl class="ctype">
+<dt id="json_type">
+<!--[json_type]-->enum <tt class="descname">json_type</tt><a class="headerlink" href="#json_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type of a JSON value. The following members are defined:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_OBJECT</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_ARRAY</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_STRING</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_INTEGER</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_REAL</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_TRUE</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_FALSE</span></tt></td>
+</tr>
+<tr><td><tt class="xref docutils literal"><span class="pre">JSON_NULL</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>These correspond to JSON object, array, string, number, boolean and
+null. A number is represented by either a value of the type
+<tt class="xref docutils literal"><span class="pre">JSON_INTEGER</span></tt> or of the type <tt class="xref docutils literal"><span class="pre">JSON_REAL</span></tt>. A true
+boolean value is represented by a value of the type
+<tt class="xref docutils literal"><span class="pre">JSON_TRUE</span></tt> and false by a value of the type
+<tt class="xref docutils literal"><span class="pre">JSON_FALSE</span></tt>.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_typeof">
+<!--[json_typeof]-->int <tt class="descname">json_typeof</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_typeof" title="Permalink to this definition">¶</a></dt>
+<dd>Return the type of the JSON value (a <a title="json_type" class="reference internal" href="#json_type"><tt class="xref docutils literal"><span class="pre">json_type</span></tt></a> cast to
+<tt class="xref docutils literal"><span class="pre">int</span></tt>). This function is actually implemented as a macro for
+speed.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_is_object">
+<!--[json_is_object]--><tt class="descname">json_is_object</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_object" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_array">
+<tt class="descname">json_is_array</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_array" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_string">
+<tt class="descname">json_is_string</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_string" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_integer">
+<tt class="descname">json_is_integer</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_integer" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_real">
+<tt class="descname">json_is_real</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_real" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_true">
+<tt class="descname">json_is_true</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_true" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_false">
+<tt class="descname">json_is_false</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_false" title="Permalink to this definition">¶</a></dt>
+<dt id="json_is_null">
+<tt class="descname">json_is_null</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_null" title="Permalink to this definition">¶</a></dt>
+<dd>These functions (actually macros) return true (non-zero) for values
+of the given type, and false (zero) for values of other types.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_is_number">
+<!--[json_is_number]--><tt class="descname">json_is_number</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_number" title="Permalink to this definition">¶</a></dt>
+<dd>Returns true for values of types <tt class="xref docutils literal"><span class="pre">JSON_INTEGER</span></tt> and
+<tt class="xref docutils literal"><span class="pre">JSON_REAL</span></tt>, and false for other types.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_is_boolean">
+<!--[json_is_boolean]--><tt class="descname">json_is_boolean</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_is_boolean" title="Permalink to this definition">¶</a></dt>
+<dd>Returns true for types <tt class="xref docutils literal"><span class="pre">JSON_TRUE</span></tt> and <tt class="xref docutils literal"><span class="pre">JSON_FALSE</span></tt>,
+and false for values of other types.</dd></dl>
+
+</div>
+<div class="section" id="reference-count">
+<h3>Reference Count<a class="headerlink" href="#reference-count" title="Permalink to this headline">¶</a></h3>
+<p>The reference count is used to track whether a value is still in use
+or not. When a value is created, it&#8217;s reference count is set to 1. If
+a reference to a value is kept (e.g. a value is stored somewhere for
+later use), its reference count is incremented, and when the value is
+no longer needed, the reference count is decremented. When the
+reference count drops to zero, there are no references left, and the
+value can be destroyed.</p>
+<p>The following functions are used to manipulate the reference count.</p>
+<dl class="cfunction">
+<dt id="json_incref">
+<!--[json_incref]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_incref</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_incref" title="Permalink to this definition">¶</a></dt>
+<dd>Increment the reference count of <em>json</em>.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_decref">
+<!--[json_decref]-->void <tt class="descname">json_decref</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_decref" title="Permalink to this definition">¶</a></dt>
+<dd>Decrement the reference count of <em>json</em>. As soon as a call to
+<a title="json_decref" class="reference internal" href="#json_decref"><tt class="xref docutils literal"><span class="pre">json_decref()</span></tt></a> drops the reference count to zero, the value
+is destroyed and it can no longer be used.</dd></dl>
+
+<p>Functions creating new JSON values set the reference count to 1. These
+functions are said to return a <strong>new reference</strong>. Other functions
+returning (existing) JSON values do not normally increase the
+reference count. These functions are said to return a <strong>borrowed
+reference</strong>. So, if the user will hold a reference to a value returned
+as a borrowed reference, he must call <a title="json_incref" class="reference internal" href="#json_incref"><tt class="xref docutils literal"><span class="pre">json_incref</span></tt></a>. As soon as
+the value is no longer needed, <a title="json_decref" class="reference internal" href="#json_decref"><tt class="xref docutils literal"><span class="pre">json_decref</span></tt></a> should be called
+to release the reference.</p>
+<p>Normally, all functions accepting a JSON value as an argument will
+manage the reference, i.e. increase and decrease the reference count
+as needed. However, some functions <strong>steal</strong> the reference, i.e. they
+have the same result as if the user called <a title="json_decref" class="reference internal" href="#json_decref"><tt class="xref docutils literal"><span class="pre">json_decref()</span></tt></a> on
+the argument right after calling the function. These are usually
+convenience functions for adding new references to containers and not
+to worry about the reference count.</p>
+<p>In the following sections it is clearly documented whether a function
+will return a new or borrowed reference or steal a reference to its
+argument.</p>
+</div>
+</div>
+<div class="section" id="true-false-and-null">
+<h2>True, False and Null<a class="headerlink" href="#true-false-and-null" title="Permalink to this headline">¶</a></h2>
+<dl class="cfunction">
+<dt id="json_true">
+<!--[json_true]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_true</tt><big>(</big>void<big>)</big><a class="headerlink" href="#json_true" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a value of the type <tt class="xref docutils literal"><span class="pre">JSON_TRUE</span></tt>, or <em>NULL</em> on
+error.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_false">
+<!--[json_false]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_false</tt><big>(</big>void<big>)</big><a class="headerlink" href="#json_false" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a value of the type <tt class="xref docutils literal"><span class="pre">JSON_FALSE</span></tt>, or <em>NULL</em> on
+error.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_null">
+<!--[json_null]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_null</tt><big>(</big>void<big>)</big><a class="headerlink" href="#json_null" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a value of the type <tt class="xref docutils literal"><span class="pre">JSON_NULL</span></tt>, or <em>NULL</em> on
+error.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="string">
+<h2>String<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h2>
+<dl class="cfunction">
+<dt id="json_string">
+<!--[json_string]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_string</tt><big>(</big>const char<em> *value</em><big>)</big><a class="headerlink" href="#json_string" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a new value of the type <tt class="xref docutils literal"><span class="pre">JSON_STRING</span></tt>, or <em>NULL</em> on
+error. <em>value</em> must be a valid UTF-8 encoded Unicode string.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_string_value">
+<!--[json_string_value]-->const char *<tt class="descname">json_string_value</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_string_value" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the associated value of a <tt class="xref docutils literal"><span class="pre">JSON_STRING</span></tt> value as a
+null terminated UTF-8 encoded string.</dd></dl>
+
+</div>
+<div class="section" id="number">
+<h2>Number<a class="headerlink" href="#number" title="Permalink to this headline">¶</a></h2>
+<dl class="cfunction">
+<dt id="json_integer">
+<!--[json_integer]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_integer</tt><big>(</big>int<em> value</em><big>)</big><a class="headerlink" href="#json_integer" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a new value of the type <tt class="xref docutils literal"><span class="pre">JSON_INTEGER</span></tt>, or <em>NULL</em> on
+error.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_integer_value">
+<!--[json_integer_value]-->int <tt class="descname">json_integer_value</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_integer_value" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the associated integer value of values of the type
+<tt class="xref docutils literal"><span class="pre">JSON_INTEGER</span></tt>, or 0 for values of other types.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_real">
+<!--[json_real]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_real</tt><big>(</big>double<em> value</em><big>)</big><a class="headerlink" href="#json_real" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a new value of the type <tt class="xref docutils literal"><span class="pre">JSON_REAL</span></tt>, or <em>NULL</em> on
+error.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_real_value">
+<!--[json_real_value]-->double <tt class="descname">json_real_value</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_real_value" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the associated real value of values of the type
+<tt class="xref docutils literal"><span class="pre">JSON_INTEGER</span></tt>, or 0 for values of other types.</dd></dl>
+
+<p>In addition to the functions above, there&#8217;s a common query function
+for integers and reals:</p>
+<dl class="cfunction">
+<dt id="json_number_value">
+<!--[json_number_value]-->double <tt class="descname">json_number_value</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em><big>)</big><a class="headerlink" href="#json_number_value" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the value of either <tt class="docutils literal"><span class="pre">JSON_INTEGER</span></tt> or <tt class="docutils literal"><span class="pre">JSON_REAL</span></tt>, cast
+to double regardless of the actual type.</dd></dl>
+
+</div>
+<div class="section" id="array">
+<h2>Array<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h2>
+<p>A JSON array is an ordered collection of other JSON values.</p>
+<dl class="cfunction">
+<dt id="json_array">
+<!--[json_array]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_array</tt><big>(</big>void<big>)</big><a class="headerlink" href="#json_array" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a new value of the type <tt class="xref docutils literal"><span class="pre">JSON_ARRAY</span></tt>, or <em>NULL</em> on
+error. Initially, the array is empty.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_array_size">
+<!--[json_array_size]-->unsigned int <tt class="descname">json_array_size</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *array</em><big>)</big><a class="headerlink" href="#json_array_size" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the number of elements in <em>array</em>.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_array_get">
+<!--[json_array_get]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_array_get</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *array</em>, unsigned int<em> index</em><big>)</big><a class="headerlink" href="#json_array_get" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><p>Returns the element in <em>array</em> at position <em>index</em>, or <em>NULL</em> if
+<em>index</em> is out of range. The valid range for <em>index</em> is from 0 to
+the return value of <a title="json_array_size" class="reference internal" href="#json_array_size"><tt class="xref docutils literal"><span class="pre">json_array_size()</span></tt></a> minus 1.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_array_set">
+<!--[json_array_set]-->int <tt class="descname">json_array_set</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *array</em>, unsigned int<em> index</em>, <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *value</em><big>)</big><a class="headerlink" href="#json_array_set" title="Permalink to this definition">¶</a></dt>
+<dd>Replaces the element in <em>array</em> at position <em>index</em> with <em>value</em>.
+Returns 0 on success, or -1 if <em>index</em> is out of range. The valid
+range for <em>index</em> is from 0 to the return value of
+<a title="json_array_size" class="reference internal" href="#json_array_size"><tt class="xref docutils literal"><span class="pre">json_array_size()</span></tt></a> minus 1.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_array_append">
+<!--[json_array_append]-->int <tt class="descname">json_array_append</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *array</em>, <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *value</em><big>)</big><a class="headerlink" href="#json_array_append" title="Permalink to this definition">¶</a></dt>
+<dd>Appends <em>value</em> to the end of <em>array</em>, growing the size of <em>array</em>
+by 1. Returns 0 on success and -1 on error.</dd></dl>
+
+</div>
+<div class="section" id="object">
+<h2>Object<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h2>
+<p>A JSON object is a dictionary of key-value pairs, where the key is a
+Unicode string and the value is any JSON value.</p>
+<dl class="cfunction">
+<dt id="json_object">
+<!--[json_object]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_object</tt><big>(</big>void<big>)</big><a class="headerlink" href="#json_object" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Returns a new value of the type <tt class="xref docutils literal"><span class="pre">JSON_OBJECT</span></tt>, or <em>NULL</em> on
+error. Initially, the object is empty.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_object_get">
+<!--[json_object_get]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_object_get</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *object</em>, const char<em> *key</em><big>)</big><a class="headerlink" href="#json_object_get" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><p>Get a value corresponding to <em>key</em> from <em>object</em>. Returns <em>NULL</em> if
+<em>key</em> is not found and on error.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_object_set">
+<!--[json_object_set]-->int <tt class="descname">json_object_set</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *object</em>, const char<em> *key</em>, <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *value</em><big>)</big><a class="headerlink" href="#json_object_set" title="Permalink to this definition">¶</a></dt>
+<dd>Set the value of <em>key</em> to <em>value</em> in <em>object</em>. <em>key</em> must be a
+valid terminated UTF-8 encoded Unicode string. If there already is
+a value for <em>key</em>, it is replaced by the new value. Returns 0 on
+success and -1 on error.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_object_del">
+<!--[json_object_del]-->int <tt class="descname">json_object_del</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *object</em>, const char<em> *key</em><big>)</big><a class="headerlink" href="#json_object_del" title="Permalink to this definition">¶</a></dt>
+<dd>Delete <em>key</em> from <em>object</em> if it exists. Returns 0 on success, or
+-1 if <em>key</em> was not found.</dd></dl>
+
+<p>The following functions implement an iteration protocol for objects:</p>
+<dl class="cfunction">
+<dt id="json_object_iter">
+<!--[json_object_iter]-->void *<tt class="descname">json_object_iter</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *object</em><big>)</big><a class="headerlink" href="#json_object_iter" title="Permalink to this definition">¶</a></dt>
+<dd>Returns an opaque iterator which can be used to iterate over all
+key-value pairs in <em>object</em>, or <em>NULL</em> if <em>object</em> is empty.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_object_iter_next">
+<!--[json_object_iter_next]-->void *<tt class="descname">json_object_iter_next</tt><big>(</big><a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *object</em>, void<em> *iter</em><big>)</big><a class="headerlink" href="#json_object_iter_next" title="Permalink to this definition">¶</a></dt>
+<dd>Returns an iterator pointing to the next key-value pair in <em>object</em>
+after <em>iter</em>, or <em>NULL</em> if the whole object has been iterated
+through.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_object_iter_key">
+<!--[json_object_iter_key]-->const char *<tt class="descname">json_object_iter_key</tt><big>(</big>void<em> *iter</em><big>)</big><a class="headerlink" href="#json_object_iter_key" title="Permalink to this definition">¶</a></dt>
+<dd>Extract the associated key from <em>iter</em>.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_object_iter_value">
+<!--[json_object_iter_value]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_object_iter_value</tt><big>(</big>void<em> *iter</em><big>)</big><a class="headerlink" href="#json_object_iter_value" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: Borrowed reference.</em><p>Extract the associated value from <em>iter</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="encoding">
+<h2>Encoding<a class="headerlink" href="#encoding" title="Permalink to this headline">¶</a></h2>
+<p>This sections describes the functions that can be used to encode
+values to JSON. Only objects and arrays can be encoded, since they are
+the only valid &#8220;root&#8221; values of a JSON text.</p>
+<p>Each function takes a <em>flags</em> parameter that controls some aspects of
+how the data is encoded. Its default value is 0. The following macros
+can be ORed together to obtain <em>flags</em>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">JSON_INDENT(n)</span></tt></dt>
+<dd>Pretty-print the result, indenting arrays and objects by <em>n</em>
+spaces. The valid range for <em>n</em> is between 0 and 255, other values
+result in an undefined output. If <tt class="docutils literal"><span class="pre">JSON_INDENT</span></tt> is not used or
+<em>n</em> is 0, no pretty-printing is done and the result is a compact
+representation.</dd>
+</dl>
+<p>The following functions perform the actual JSON encoding. The result
+is in UTF-8.</p>
+<dl class="cfunction">
+<dt id="json_dumps">
+<!--[json_dumps]-->char *<tt class="descname">json_dumps</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *root</em>, uint32_t<em> flags</em><big>)</big><a class="headerlink" href="#json_dumps" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the JSON representation of <em>root</em> as a string, or <em>NULL</em> on
+error. <em>flags</em> is described above. The return value must be freed
+by the caller using <tt class="xref docutils literal"><span class="pre">free()</span></tt>.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_dumpf">
+<!--[json_dumpf]-->int <tt class="descname">json_dumpf</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *root</em>, FILE<em> *output</em>, uint32_t<em> flags</em><big>)</big><a class="headerlink" href="#json_dumpf" title="Permalink to this definition">¶</a></dt>
+<dd>Write the JSON representation of <em>root</em> to the stream <em>output</em>.
+<em>flags</em> is described above. Returns 0 on success and -1 on error.</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_dump_file">
+<!--[json_dump_file]-->int <tt class="descname">json_dump_file</tt><big>(</big>const <a title="json_t" class="reference internal" href="#json_t">json_t</a><em> *json</em>, const char<em> *path</em>, uint32_t<em> flags</em><big>)</big><a class="headerlink" href="#json_dump_file" title="Permalink to this definition">¶</a></dt>
+<dd>Write the JSON representation of <em>root</em> to the file <em>path</em>. If
+<em>path</em> already exists, it is overwritten. <em>flags</em> is described
+above. Returns 0 on success and -1 on error.</dd></dl>
+
+</div>
+<div class="section" id="decoding">
+<h2>Decoding<a class="headerlink" href="#decoding" title="Permalink to this headline">¶</a></h2>
+<p>This sections describes the functions that can be used to decode JSON
+text to the Jansson representation of JSON data. The JSON
+specification requires that a JSON text is either a serialized array
+or object, and this requirement is also enforced with the following
+functions.</p>
+<p>The only supported character encoding is UTF-8 (which ASCII is a
+subset of).</p>
+<dl class="ctype">
+<dt id="json_error_t">
+<!--[json_error_t]--><tt class="descname">json_error_t</tt><a class="headerlink" href="#json_error_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>This data structure is used to return information on decoding
+errors from the decoding functions. Its definition is repeated
+here:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#define JSON_ERROR_TEXT_LENGTH  160</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">text</span><span class="p">[</span><span class="n">JSON_ERROR_TEXT_LENGTH</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">line</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">json_error_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><em>line</em> is the line number on which the error occurred, or -1 if
+this information is not available. <em>text</em> contains the error
+message (in UTF-8), or an empty string if a message is not
+available.</p>
+<p>The normal usef of <a title="json_error_t" class="reference internal" href="#json_error_t"><tt class="xref docutils literal"><span class="pre">json_error_t</span></tt></a> is to allocate it normally
+on the stack, and pass a pointer to a decoding function. Example:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">json_t</span> <span class="o">*</span><span class="n">json</span><span class="p">;</span>
+    <span class="n">json_error_t</span> <span class="n">error</span><span class="p">;</span>
+
+    <span class="n">json</span> <span class="o">=</span> <span class="n">json_load_file</span><span class="p">(</span><span class="s">&quot;/path/to/file.json&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">json</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c">/* the error variable contains error information */</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Also note that if the decoding succeeded (<tt class="docutils literal"><span class="pre">json</span> <span class="pre">!=</span> <span class="pre">NULL</span></tt> in the
+above example), the contents of <tt class="docutils literal"><span class="pre">error</span></tt> are unspecified.</p>
+<p>All decoding functions also accept <em>NULL</em> as the
+<a title="json_error_t" class="reference internal" href="#json_error_t"><tt class="xref docutils literal"><span class="pre">json_error_t</span></tt></a> pointer, in which case no error information
+is returned to the caller.</p>
+</dd></dl>
+
+<p>The following functions perform the actual JSON decoding.</p>
+<dl class="cfunction">
+<dt id="json_loads">
+<!--[json_loads]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_loads</tt><big>(</big>const char<em> *input</em>, <a title="json_error_t" class="reference internal" href="#json_error_t">json_error_t</a><em> *error</em><big>)</big><a class="headerlink" href="#json_loads" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Decodes the JSON string <em>input</em> and returns the array or object it
+contains, or <em>NULL</em> on error, in which case <em>error</em> is filled with
+information about the error. See above for discussion on the
+<em>error</em> parameter.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_loadf">
+<!--[json_loadf]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_loadf</tt><big>(</big>FILE<em> *input</em>, <a title="json_error_t" class="reference internal" href="#json_error_t">json_error_t</a><em> *error</em><big>)</big><a class="headerlink" href="#json_loadf" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Decodes the JSON text in stream <em>input</em> and returns the array or
+object it contains, or <em>NULL</em> on error, in which case <em>error</em> is
+filled with information about the error. See above for discussion
+on the <em>error</em> parameter.</p>
+</dd></dl>
+
+<dl class="cfunction">
+<dt id="json_load_file">
+<!--[json_load_file]--><a title="json_t" class="reference internal" href="#json_t">json_t</a> *<tt class="descname">json_load_file</tt><big>(</big>const char<em> *path</em>, <a title="json_error_t" class="reference internal" href="#json_error_t">json_error_t</a><em> *error</em><big>)</big><a class="headerlink" href="#json_load_file" title="Permalink to this definition">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Decodes the JSON text in file <em>path</em> and returns the array or
+object it contains, or <em>NULL</em> on error, in which case <em>error</em> is
+filled with information about the error. See above for discussion
+on the <em>error</em> parameter.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">API Reference</a><ul>
+<li><a class="reference external" href="#preliminaries">Preliminaries</a></li>
+<li><a class="reference external" href="#value-representation">Value Representation</a><ul>
+<li><a class="reference external" href="#type">Type</a></li>
+<li><a class="reference external" href="#reference-count">Reference Count</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#true-false-and-null">True, False and Null</a></li>
+<li><a class="reference external" href="#string">String</a></li>
+<li><a class="reference external" href="#number">Number</a></li>
+<li><a class="reference external" href="#array">Array</a></li>
+<li><a class="reference external" href="#object">Object</a></li>
+<li><a class="reference external" href="#encoding">Encoding</a></li>
+<li><a class="reference external" href="#decoding">Decoding</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html" title="previous chapter">Overview</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/apiref.txt">Show Source</a></li>
+            </ul>
+          <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Jansson v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Petri Lehtinen.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.2.
+    </div>
+  </body>
+</html>
