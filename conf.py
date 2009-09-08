@@ -17,7 +17,7 @@ files += stango.files(
 
 files += stango.files_from_tar(
     'jansson/doc/1.0/',
-    'pagedata/projects/jansson/doc/jansson-1.0.1-doc.tar.bz2',
+    'pagedata/projects/jansson/doc-current.tar.bz2',
     strip=1,
  )
 
