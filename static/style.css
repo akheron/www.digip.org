@@ -145,3 +145,8 @@ a:hover {
 .clear {
     clear: both;
 }
+
+#news th {
+    font-weight: bold;
+    vertical-align: top;
+}
