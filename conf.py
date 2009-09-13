@@ -1,3 +1,4 @@
+import os
 import stango
 import views
 import models
@@ -24,3 +25,28 @@ files += stango.files_from_tar(
 files += stango.files(
     ('stango/', views.project, {'project': 'stango'}),
 )
+
+
+analytics_script = '''\
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-10422726-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+'''
+
+def post_render_hook(path, data):
+    name, ext = os.path.splitext(path)
+    if ext != '.html':
+        return data
+
+    offset = data.find('</body>')
+    if offset == -1:
+        return data
+
+    return data[:offset] + analytics_script + data[offset:]
+
