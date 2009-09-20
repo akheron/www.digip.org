@@ -8,7 +8,6 @@ autoreload = ['pagedata/']
 
 files = stango.files(
     ('', views.index),
-    ('petri/', views.redirect, {'url': '/'}),
 )
 
 files += stango.files(
