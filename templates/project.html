@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set caption = project.name %}
+{% set caption = project.name.replace(' ', '&nbsp;') %}
 {% set title = "%s &ndash; %s" % (project.name, project.description) %}
 
 {% block content %}

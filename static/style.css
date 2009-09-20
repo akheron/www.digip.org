@@ -59,6 +59,14 @@ a:hover {
     color: #a95;
 }
 
+pre {
+    margin-left: 10px;
+    margin-bottom: 1em;
+    padding: 3px;
+    border: 1px solid #dadada;
+    background-color: #fafafa;
+}
+
 #container {
     position: relative;
     min-width: 700px;
@@ -109,13 +117,14 @@ a:hover {
 
 #caption {
     position: absolute;
-    padding-left: 50px;
+    width: 100%;
     z-index: -1;
     overflow: hidden;
 }
 
 #caption h1 {
     font-family: "Georgia", serif;
+    padding-left: 50px;
     font-size: 85pt;
     font-weight: bold;
     color: #ddd;
@@ -146,7 +155,21 @@ a:hover {
     clear: both;
 }
 
+.overstrike {
+    text-decoration: line-through;
+}
+
 #news th {
     font-weight: bold;
     vertical-align: top;
+}
+
+table.download {
+    border-collapse: collapse;
+}
+
+table.download td, table.download th {
+    vertical-align: top;
+    border: 1px solid #ccc;
+    padding: 5px 15px;
 }

@@ -25,6 +25,9 @@ files += stango.files(
     ('stango/', views.project, {'project': 'stango'}),
 )
 
+files += stango.files(
+    ('autotoolized-lua/', views.project, {'project': 'autotoolized-lua'}),
+)
 
 analytics_script = '''\
 <script type="text/javascript">
