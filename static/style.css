@@ -173,3 +173,32 @@ table.download td, table.download th {
     border: 1px solid #ccc;
     padding: 5px 15px;
 }
+
+#gravatar {
+     float: left;
+     margin: 0px 8px 4px 0px;
+}
+
+.delicious-networkbadge, #twitter-badge, #github-badge {
+    margin: 10px;
+    float: left;
+}
+
+.delicious-networkbadge a {
+    color: #1462c1;
+    font-weight: normal;
+}
+
+#twitter-badge img, #github-badge img {
+    border: 0;
+}
+
+#twitter-badge a {
+    color: #2276aa;
+    font-weight: normal;
+}
+
+#github-badge a {
+    color: #4183c4;
+    font-weight: normal;
+}
