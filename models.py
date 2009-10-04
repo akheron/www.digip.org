@@ -1,6 +1,5 @@
 import os
 import simplejson
-from util import rst
 
 class Project(object):
     def __init__(self, slug):
