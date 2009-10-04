@@ -1,4 +1,4 @@
 {
     "name": "Jansson",
-    "description": "JSON encoder, decoder and data model library for C"
+    "description": "C library for encoding, decoding and manipulating JSON data"
 }
