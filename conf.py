@@ -12,12 +12,17 @@ files = stango.files(
 
 files += stango.files(
     ('jansson/', views.project, {'project': 'jansson'}),
-    ('jansson/doc/', views.redirect, {'url': '1.0/'}),
+    ('jansson/doc/', views.redirect, {'url': '1.1/'}),
 )
 
 files += stango.files_from_tar(
     'jansson/doc/1.0/',
-    'pagedata/projects/jansson/doc-current.tar.bz2',
+    'pagedata/projects/jansson/doc-1.0.tar.bz2',
+    strip=1,
+ )
+files += stango.files_from_tar(
+    'jansson/doc/1.1/',
+    'pagedata/projects/jansson/doc-1.1.tar.bz2',
     strip=1,
  )
 
