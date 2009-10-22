@@ -6,34 +6,44 @@ import models
 index_file = 'index.html'
 autoreload = ['pagedata/']
 
-files = stango.files(
+files = stango.files()
+
+# Static files
+files += stango.files.from_dir('', 'static', strip=1)
+
+# Index
+files += stango.files(
     ('', views.index),
 )
 
+# Jansson
 files += stango.files(
     ('jansson/', views.project, {'project': 'jansson'}),
     ('jansson/doc/', views.redirect, {'url': '1.1/'}),
 )
-
-files += stango.files_from_tar(
+files += stango.files.from_tar(
     'jansson/doc/1.0/',
     'pagedata/projects/jansson/doc-1.0.tar.bz2',
     strip=1,
- )
-files += stango.files_from_tar(
+)
+files += stango.files.from_tar(
     'jansson/doc/1.1/',
     'pagedata/projects/jansson/doc-1.1.tar.bz2',
     strip=1,
- )
+)
 
+# Stango
 files += stango.files(
     ('stango/', views.project, {'project': 'stango'}),
 )
 
+# Autotoolized Lua
 files += stango.files(
     ('autotoolized-lua/', views.project, {'project': 'autotoolized-lua'}),
 )
 
+
+# Post-render hook
 analytics_script = '''\
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
