@@ -203,7 +203,7 @@ table.download td, table.download th {
     font-weight: normal;
 }
 
-#morenews {
+#morenews, #lessnews {
     font-size: 8pt;
     font-weight: normal;
 }
