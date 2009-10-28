@@ -2,6 +2,10 @@
 {% set caption = project.name.replace(' ', '&nbsp;') %}
 {% set title = "%s &ndash; %s" % (project.name, project.description) %}
 
+{% block extrahead %}
+<script type="text/javascript" src="/js/news.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="section">
   {{ project.index }}
