@@ -179,18 +179,18 @@ table.download td, table.download th {
      margin: 0px 8px 4px 0px;
 }
 
-.delicious-networkbadge, #twitter-badge, #github-badge {
+#delicious-badge, #twitter-badge, #github-badge {
     margin: 10px;
     float: left;
 }
 
-.delicious-networkbadge a {
-    color: #1462c1;
-    font-weight: normal;
+#delicious-badge img, #twitter-badge img, #github-badge img {
+    border: 0;
 }
 
-#twitter-badge img, #github-badge img {
-    border: 0;
+#delicious-badge a {
+    color: #1462c1;
+    font-weight: normal;
 }
 
 #twitter-badge a {
