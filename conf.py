@@ -19,23 +19,15 @@ files += stango.files(
 # Jansson
 files += stango.files(
     ('jansson/', views.project, {'project': 'jansson'}),
-    ('jansson/doc/', views.redirect, {'url': '1.2/'}),
+    ('jansson/doc/', views.redirect, {'url': '1.3/'}),
 )
-files += stango.files.from_tar(
-    'jansson/doc/1.0/',
-    'pagedata/projects/jansson/doc-1.0.tar.bz2',
-    strip=1,
-)
-files += stango.files.from_tar(
-    'jansson/doc/1.1/',
-    'pagedata/projects/jansson/doc-1.1.tar.bz2',
-    strip=1,
-)
-files += stango.files.from_tar(
-    'jansson/doc/1.2/',
-    'pagedata/projects/jansson/doc-1.2.tar.bz2',
-    strip=1,
-)
+
+for version in ['1.0', '1.1', '1.2', '1.3']:
+    files += stango.files.from_tar(
+        'jansson/doc/%s/' % version,
+        'pagedata/projects/jansson/doc-%s.tar.bz2' % version,
+        strip=1,
+    )
 
 # Stango
 files += stango.files(
