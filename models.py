@@ -1,6 +1,9 @@
 import os
 try:
     import json
+    # Check that it's from stdlib
+    if not all(hasattr(json, x) for x in ['load', 'loads', 'dump', 'dumps']):
+        raise ImportError('Wrong json module (probably python-json)')
 except ImportError:
     import simplejson as json
 
