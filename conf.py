@@ -1,7 +1,6 @@
 import os
 import stango
 import views
-import models
 
 index_file = 'index.html'
 autoreload = ['pagedata/']
@@ -51,16 +50,15 @@ try {
 var pageTracker = _gat._getTracker("UA-10422726-1");
 pageTracker._trackPageview();
 } catch(err) {}</script>
-'''
+'''.encode('utf-8')
 
 def post_render_hook(path, data):
     name, ext = os.path.splitext(path)
     if ext != '.html':
         return data
 
-    offset = data.find('</body>')
+    offset = data.find(b'</body>')
     if offset == -1:
         return data
 
     return data[:offset] + analytics_script + data[offset:]
-

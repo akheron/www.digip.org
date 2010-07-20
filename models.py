@@ -31,7 +31,7 @@ class Project(object):
         return self.name < other.name
 
 projects = {}
-for dir in os.walk('pagedata/projects').next()[1]:
+for dir in next(os.walk('pagedata/projects'))[1]:
     projects[dir] = Project(os.path.basename(dir))
 
 
