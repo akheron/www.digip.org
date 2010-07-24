@@ -52,8 +52,11 @@ pageTracker._trackPageview();
 } catch(err) {}</script>
 '''.encode('utf-8')
 
-def post_render_hook(path, data):
-    name, ext = os.path.splitext(path)
+def post_view_hook(context, data):
+    if not context.rendering:
+        return data
+
+    name, ext = os.path.splitext(context.filespec.realpath)
     if ext != '.html':
         return data
 

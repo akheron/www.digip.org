@@ -1,15 +1,14 @@
 import operator
 import os
 import models
-from stango.shortcuts import render_template
 
-def index():
-    return render_template('index.html', index=models.index)
+def index(context):
+    return context.render_template('index.html', index=models.index)
 
-def project(project):
-    return render_template('project.html',
-                           index=models.index,
-                           project=models.projects[project])
+def project(context, project):
+    return context.render_template('project.html',
+                                   index=models.index,
+                                   project=models.projects[project])
 
-def redirect(url):
-    return render_template('redirect.html', url=url)
+def redirect(context, url):
+    return context.render_template('redirect.html', url=url)
