@@ -1,45 +1,40 @@
+from stango.files import *
 import os
-import stango
 import views
 
 index_file = 'index.html'
 autoreload = ['pagedata/']
 
-files = stango.files()
-
-# Static files
-files += stango.files.from_dir('', 'static', strip=1)
-
-# Index
-files += stango.files(
+files = Files(
+    # Index
     ('', views.index),
-)
 
-# Jansson
-files += stango.files(
+    # Static files
+    files_from_dir('', 'static', strip=1),
+
+    # Jansson
     ('jansson/', views.project, {'project': 'jansson'}),
     ('jansson/doc/', views.redirect, {'url': '1.3/'}),
+
+    # Stango
+    ('stango/', views.project, {'project': 'stango'}),
+
+    # Autotoolized Lua
+    ('autotoolized-lua/', views.project, {'project': 'autotoolized-lua'}),
 )
 
+# Jansson documentation
 for version in ['1.0', '1.1', '1.2', '1.3']:
-    files += stango.files.from_tar(
+    files += files_from_tar(
         'jansson/doc/%s/' % version,
         'pagedata/projects/jansson/doc-%s.tar.bz2' % version,
         strip=1,
     )
 
-# Stango
-files += stango.files(
-    ('stango/', views.project, {'project': 'stango'}),
-)
+# Post-view hook: Add Google Analytics script into all .html files.
+# This cannot be done in the base template, as all HTML files are
+# generated from templates (e.g. Jansson's documentation files).
 
-# Autotoolized Lua
-files += stango.files(
-    ('autotoolized-lua/', views.project, {'project': 'autotoolized-lua'}),
-)
-
-
-# Post-render hook
 analytics_script = '''\
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -53,7 +48,8 @@ pageTracker._trackPageview();
 '''.encode('utf-8')
 
 def post_view_hook(context, data):
-    if not context.rendering:
+    # Don't add the analytics script when using the Stango test server
+    if context.serving:
         return data
 
     name, ext = os.path.splitext(context.filespec.realpath)
