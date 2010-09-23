@@ -1,17 +1,12 @@
 $(document).ready(function() {
-    var host = "digip.org";
-    $('.mailaddr').each(function() {
+    var user = 'petri';
+    var host = 'digip.org';
+    $('.ma').each(function() {
         var text = $(this).text();
-        var bar = text.indexOf('|');
-        var addr, display;
-        if(bar != -1) {
-          display = text.slice(0, bar);
-          addr = text.slice(bar + 1) + '@' + host;
-        }
-        else {
-          addr = text + '@' + host;
-          display = addr;
-        }
-        $(this).html('<a href="mailto:' + addr + '">' + display + '</a>');
-      });
-  });
+        if($(this).hasClass('s'))
+            text = addr = user + '@' + host;
+        else
+            addr = user + '@' + host;
+        $(this).html('<a href="mailto:' + addr + '">' + text + '</a>');
+    });
+});

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% set title = "About me &mdash; digip.org" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="/css/about.css">
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="/js/mailaddr.js"></script>
+{% endblock %}
+
+{% block content %}
+<section>
+  <h1>About me</h1>
+  <img class="left" id="gravatar" src="http://www.gravatar.com/avatar/7eb570f10c31357bd86b16251be8e99e.jpg?s=150">
+  <p>
+    Hello! I am Petri Lehtinen, a Finnish software developer who
+    mostly hacks in Python, C and Javascript. In the web, I'm
+    sometimes also known as &#x201c;akheron&#x201d; or
+    &#x201c;akhern&#x201d;. To contact me, drop an email
+    to <span class="ma s">my first name at this domain (address
+    obfuscated to avoid spam)</span>, <tt>/msg akheron</tt> in IRCnet
+    or freenode or send a direct message on Twitter
+    to <a href="http://twitter.com/akhern">@akhern</a>.
+  </p>
+  <p>
+    I have a few <a href="#projects">projects</a> and I also try to
+    update my <a href="/blog/">blog</a> every now and then.
+  </p>
+  <p>
+    I use
+    <a href="http://www.ubuntu.com/">Ubuntu</a>,
+    <a href="http://www.gnu.org/software/emacs/">Emacs</a> and
+    <a href="http://www.git-scm.com/">Git</a>.
+  </p>
+  <p>
+    My PGP public key is
+    available <a href="/files/pubkey.asc">here</a>. Its fingerprint
+    is <tt>21DA 7E1F AB1B 03AE DF65 2FF2 3782 02A6 D4E3 9B36</tt>. I
+    use the key mainly to sign tarballs that I create for the releases
+    of my projects.
+  </p>
+  <p>
+    Me around the web:
+    <ul id="badges">
+      <li>
+        <a href="http://github.com/akheron">GitHub</a>
+      </li>
+      <li>
+        <a href="http://twitter.com/akhern">Twitter</a>
+      </li>
+      <li>
+        <a href="http://delicious.com/akhern">Delicious</a>
+      </li>
+      <li>
+        <a href="http://launchpad.net/~petri">Launchpad</a>
+      </li>
+    </ul>
+  </p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <p>
+    Projects I've started and am the main author of:
+  </p>
+  <ul>
+    <li><a href="/jansson/">Jansson</a> &mdash; C library for working
+      with JSON data</li>
+    <li><a href="/stango/">Stango</a> &mdash; Static website generator
+      for Python programmers</li>
+  </ul>
+  <p>
+    Significant projects I've contributed to, more or less:
+  </p>
+  <ul>
+    <li><a href="http://kernel.org/">Linux</a> &mdash; The most
+    awesome operating system kernel on Earth</li>
+    <li><a href="http://www.openembedded.org/">OpenEmbedded</a>
+      &mdash; Build framework for embedded Linux</li>
+    <li><a href="http://www.tornadoweb.org/">Tornado</a> &mdash;
+      Scalable, non-blocking web server and tools</li>
+    <li><a href="http://inoi.github.com/trombi/">Trombi</a> &mdash;
+      Asynchronous <a href="http://couchdb.apache.org/">CouchDB</a>
+      client for Tornado</li>
+    <li><a href="http://www.denx.de/wiki/U-Boot">U-Boot</a> &mdash;
+      The universal bootloader</li>
+  </ul>
+  <p>
+    All the above projects are open source software.
+  </p>
+</section>
+
+<section id="publications">
+  <h2>Publications</h2>
+  <p>
+    I worked for the Department of Software Systems in Tampere
+    University of Technology for a few years. This is a list of
+    research papers I worked on during that period:
+  </p>
+  <ul>
+    <li>
+      A. Valmari, P. Lehtinen. <em>Efficient Minimization of DFAs with
+      Partial Transition Functions.</em> 25th International Symposium
+      on Theoretical Aspects of Computer Science (STACS). Bordeaux,
+      France, February 21-23, 2008. At the time of publication, this
+      paper presented the fastest known minimization algorithm for
+      <a href="http://en.wikipedia.org/wiki/Deterministic_finite_automaton">Deterministic Finite Automata</a> (and AFAIK, it still does). The paper is
+      available <a href="http://drops.dagstuhl.de/opus/volltexte/2008/1328/pdf/22011.ValmariAntti.Paper.1328.pdf">online</a>.
+    </li>
+    <li>
+      T. Elomaa, P. Lehtinen. <em>Maintaining Optimal Multi-way Splits
+      for Numerical Attributes in Data Streams.</em> 12th Pacific Asia
+      Conference on Knowledge Discovery and Data Mining (PAKDD).
+      Osaka, Japan, May 20-23, 2008.
+    </li>
+    <li>
+      T. Elomaa, P. Lehtinen, M. Saarela. <em>Obtaining Low Arity
+      Discretizations from Online Data Streams.</em> 17th International
+      Symposium on Methodologies for Intelligent Systems (ISMIS).
+      Toronto, Canada, May 20-23, 2008.
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>In real life...</h2>
+  <p>
+    I have a wife, two kids and two dogs, and that's why I don't have
+    much time to work on my hobby projects. And, to make things clear,
+    I'm completely happy with this situation :-)
+  </p>
+</section>
+{% endblock %}

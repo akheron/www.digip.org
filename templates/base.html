@@ -1,47 +1,33 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!doctype html>
+<html lang="en" class="no-js">
   <head>
+    <meta charset="utf-8">
     <title>{{ title }}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="/style.css" type="text/css">
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/mailaddr.js"></script>
-    {% block extrahead %}{% endblock %}
+
+    <meta name="author" content="Petri Lehtinen">
+
+    <link rel="shortcut icon" href="">
+    <link rel="apple-touch-icon" href="">
+
+    <link href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/html5reset-1.6.css">
+    <link rel="stylesheet" href="/css/base.css">
+
+    {% block styles %}
+    {% endblock %}
   </head>
 
   <body>
     <div id="container">
-
-      <div id="header">
-        <div id="heading"><a href="/">digip.org</a></div>
-        <div class="clear"></div>
-      </div>
-
-      <div id="topline">
-        <div id="caption">
-          <h1>
-            {%- if caption -%}
-            {{ caption }}
-            {%- else -%}
-            {{ title }}
-            {%- endif -%}
-          </h1>
-        </div>
-        <div id="navi">
-          <ul>
-            {% for project in index.projects %}
-            <li><a href="/{{ project.slug }}/">{{ project.name }}</a></li>
-            {%- if not loop.last %} |{% endif -%}
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-
-      <div id="content">
-        {% block content %}{% endblock %}
-      </div>
-
-      <div class="clear"></div>
+      {% block content %}
+      {% endblock %}
     </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script>!window.jQuery && document.write('<script src="/js/jquery-1.4.2.min.js"><\/script>')</script>
+    <script src="/js/modernizr-1.5.min.js"></script>
+
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>

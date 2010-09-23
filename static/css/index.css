@@ -1,0 +1,54 @@
+h1 { display: none; }
+
+#projects {
+    margin-bottom: 40px;
+}
+
+.project {
+    max-width: 625px;
+    margin: 13px 0;
+    padding: 13px;
+
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+
+    box-shadow: #777 5px 5px 10px;
+    -moz-box-shadow: #777 5px 5px 10px;
+    -webkit-box-shadow: #777 5px 5px 10px;
+}
+
+.no-boxshadow .project {
+    border: 2px solid #777;
+}
+
+.js .project {
+    /* If Javascript is available, the whole project badge is clickable */
+    cursor: pointer;
+}
+
+.no-js .project h2 a {
+    /* Otherwise, underline the text */
+    text-decoration: underline;
+}
+
+.project h2 {
+    border: 0;
+}
+
+.project h2 a {
+    color: #333;
+    text-decoration: none;
+    border: 0;
+}
+
+#blog { background-color: #ddf; }
+#jansson { background-color: #dfd; }
+#stango { background-color: #fdd; }
+
+#gravatar {
+    float: right;
+    margin: 0 0 10px 10px;
+    width: 100px;
+    height: 100px;
+}

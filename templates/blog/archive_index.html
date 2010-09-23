@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% set title = "Archive &mdash; digip.org blog" %}
+
+{% block blogcontent %}
+<section>
+  <h2>Archive</h2>
+
+  <ul>
+    {% for year in archive %}
+    {% for month in archive[year] %}
+    <li><a href="{{ year }}/{{ month }}/">{{ month }}/{{ year }}</a></li>
+    {% endfor %}
+    {% endfor %}
+  </ul>
+</section>
+
+<section>
+  <h2>Tags</h2>
+  <ul>
+    {% for tag in tags %}
+    <li><a href="{{ tag.url }}">{{ tag.name }}</a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

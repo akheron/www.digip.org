@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% set title = "Tag &#x201c;" + tag.name + "&#x201d; &mdash; digip.org blog" %}
+
+{% block blogcontent %}
+<h2>Entries tagged &#x201c;{{ tag.name }}&#x201d;</h2>
+
+<ul>
+  {% for entry in tag.entries %}
+  <li>
+    <a href="{{ entry.url }}">{{ entry.title }}</a>, on {{ entry.date_str }}
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

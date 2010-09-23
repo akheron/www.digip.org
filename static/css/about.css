@@ -1,0 +1,10 @@
+#gravatar {
+    float: right;
+    margin: 0 0 10px 10px;
+    width: 150px;
+    height: 150px;
+}
+
+#publications li {
+    margin-bottom: 13px;
+}

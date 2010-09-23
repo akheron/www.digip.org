@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% set title = "Stango &mdash; Static web site generator for Python programmers" %}
+
+{% block content %}
+<section>
+  <h1>Stango</h1>
+  <p>
+    <em>Stango</em> is a Pythonic static web site generator that feels
+    like a web framework.
+  </p>
+  <p>
+    User defined view functions generate the content to pages (e.g.
+    using <a href="http://jinja.pocoo.org/2/">Jinja2</a> templates or
+    any other means). During development, the pages are served locally
+    using a built-in web server with all URLs working. When they site is
+    ready, it is rendered to flat files and can be pushed to a
+    production server.
+  </p>
+</section>
+
+<section>
+  <h2>News</h2>
+  <ul>
+    {% for entry in news %}
+    <li>
+      <a href="{{ entry.url }}">{{ entry.title }}</a>, on {{ entry.date_str }}
+    </li>
+    {% endfor %}
+  </ul>
+  <a href="/blog/tags/stango/">More news...</a>
+</section>
+
+<section>
+  <h2>Development</h2>
+  <p>
+    Stango is in early development, and there are no releases
+    available, yet. It is usable, though, as this site is built with
+    Stango.
+  </p>
+  <p>
+    The Stango source repository is hosted
+    at <a href="http://github.com/">GitHub</a>.
+  </p>
+  <ul>
+    <li>
+      Browse source <a href="http://github.com/akheron/stango/">online</a>
+    </li>
+  </ul>
+  <p>
+    Check out the latest source:
+  </p>
+  <pre>
+git clone git://github.com/akheron/stango.git
+</pre>
+</section>
+{% endblock %}

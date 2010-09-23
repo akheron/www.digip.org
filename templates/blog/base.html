@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="/css/blog.css">
+{% endblock %}
+
+{% block content %}
+<div id="bloghead">digip.org blog</div>
+<div id="blogmenu">
+  <ul>
+    <li><a href="/">home</a></li>
+    <li><a href="/blog/">blog</a></li>
+    <li><a href="/blog/archive/">archive</a></li>
+    <li><a href="/about/">about</a></li>
+  </ul>
+</div>
+<div class="clear">
+  {% block blogcontent %}
+  {% endblock %}
+</div>
+{% endblock content %}

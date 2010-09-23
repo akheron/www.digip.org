@@ -1,50 +1,53 @@
 {% extends "base.html" %}
 {% set title = "digip.org" %}
 
-{% block content %}
-<a name="projects"></a>
-<div class="section">
-  <h2>Projects</h2>
-  <p>
-    Welcome to <a href="http://www.digip.org/">digip.org</a>. The
-    following projects are hosted here:
-  </p>
-  <dl>
-    {% for project in index.projects %}
-    <dt><a href="/{{ project.slug }}/">{{ project.name }}</a></dt>
-    <dd>{{ project.description }}</dd>
-    {% endfor %}
-  </dl>
-</div>
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="/css/index.css">
+{% endblock %}
 
-<a name="about"></a>
-<div class="section">
+{% block scripts %}
+{{ super() }}
+<script src="/js/mailaddr.js"></script>
+<script src="/js/index.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1>Welcome to digip.org</h1>
+
+<section id="projects">
+  <h2>Projects & Reading</h2>
+
+  <div id="blog" class="project">
+    <h2><a href="blog/">Blog</a></h2>
+    Mostly news and information on my projects.
+  </div>
+
+  <div id="jansson" class="project">
+    <h2><a href="jansson/">Jansson</a></h2>
+    C library for encoding, decoding and manipulating JSON data.
+  </div>
+
+  <div id="stango" class="project">
+    <h2><a href="stango/">Stango</a></h2>
+    Static web site generator for Python programmers.
+  </div>
+
+</section>
+
+<section>
   <h2>About</h2>
-  <img id="gravatar" src="http://www.gravatar.com/avatar/7eb570f10c31357bd86b16251be8e99e.jpg?s=90" width="90" height="90">
+  <img id="gravatar" src="http://www.gravatar.com/avatar/7eb570f10c31357bd86b16251be8e99e.jpg?s=100">
   <p>
-    I am Petri Lehtinen, sometimes also known as "akheron" or
-    "akhern". To contact me, drop an email
-    to <span class="mailaddr">petri</span> or /msg akheron in IRCnet
-    or freenode.
+    I am Petri Lehtinen, sometimes also known as
+    &#x201c;akheron&#x201d; or &#x201c;akhern&#x201d;. To contact me,
+    drop an email to <span class="ma s">my first name at this domain
+    (address obfuscated to avoid spam)</span>, <tt>/msg akheron</tt>
+    in IRCnet or freenode, or tweet
+    to <a href="http://twitter.com/akheron">@akhern</a>.
   </p>
   <p>
-    My PGP public key is available <a href="files/pubkey.asc">here</a>.
-    Its fingerprint is <tt>21DA 7E1F AB1B 03AE DF65 2FF2 3782 02A6
-    D4E3 9B36</tt>.
+    <a href="/about/">Read more...</a>
   </p>
-  <div id="delicious-badge">
-    <a href="http://delicious.com/akhern"><img src="img/delicious-logo.gif" width="15" height="15"></a>
-    <a href="http://delicious.com/akhern">akhern</a> on <a href="http://delicious.com/">Delicious</a>
-  </div>
-  <div id="twitter-badge">
-    <a href="http://twitter.com/akhern"><img src="img/twitter-logo.png"></a>
-    <a href="http://twitter.com/akhern">akhern</a> on
-    <a href="http://twitter.com/">Twitter</a>
-  </div>
-  <div id="github-badge">
-    <a href="http://github.com/akheron"><img src="img/github-logo.png"></a>
-    <a href="http://github.com/akheron">akheron</a> on
-    <a href="http://github.com/">GitHub</a>
-  </div>
-</div>
+</section>
 {% endblock %}
