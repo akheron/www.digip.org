@@ -259,5 +259,9 @@ class Blog(object):
         return context.render_template('blog/tag.html', **ctx)
 
     def view_archive(self, context, year, month):
-        ctx = self._template_context(entries=self.archive[year][month])
+        ctx = self._template_context(
+            year=year,
+            month=month,
+            entries=self.archive[year][month],
+        )
         return context.render_template('blog/archive.html', **ctx)

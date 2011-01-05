@@ -1,5 +1,3 @@
-h1 { display: none; }
-
 #projects {
     margin-bottom: 40px;
 }
@@ -45,6 +43,7 @@ h1 { display: none; }
 #blog { background-color: #ddf; }
 #jansson { background-color: #dfd; }
 #stango { background-color: #fdd; }
+#about { background-color: #fea; }
 
 #gravatar {
     float: right;

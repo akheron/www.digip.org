@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set title = "digip.org" %}
+{% set title = "Welcome to digip.org" %}
 
 {% block styles %}
 {{ super() }}
@@ -15,9 +15,7 @@
 {% block content %}
 <h1>Welcome to digip.org</h1>
 
-<section id="projects">
-  <h2>Projects & Reading</h2>
-
+<div id="projects">
   <div id="blog" class="project">
     <h2><a href="blog/">Blog</a></h2>
     Mostly news and information on my projects.
@@ -33,21 +31,10 @@
     Static web site generator for Python programmers.
   </div>
 
+  <div id="about" class="project">
+    <h2><a href="about/">About</a></h2>
+    Read more about me and this site.
+  </div>
 </section>
 
-<section>
-  <h2>About</h2>
-  <img id="gravatar" src="http://www.gravatar.com/avatar/7eb570f10c31357bd86b16251be8e99e.jpg?s=100">
-  <p>
-    I am Petri Lehtinen, sometimes also known as
-    &#x201c;akheron&#x201d; or &#x201c;akhern&#x201d;. To contact me,
-    drop an email to <span class="ma s">my first name at this domain
-    (address obfuscated to avoid spam)</span>, <tt>/msg akheron</tt>
-    in IRCnet or freenode, or tweet
-    to <a href="http://twitter.com/akheron">@akhern</a>.
-  </p>
-  <p>
-    <a href="/about/">Read more...</a>
-  </p>
-</section>
 {% endblock %}
