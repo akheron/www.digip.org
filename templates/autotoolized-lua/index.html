@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% set title = "Autotoolized Lua &mdash; Patches for autotoolizing the Lua interpreter source" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="/css/autotoolized-lua/index.css">
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="/js/mailaddr.js"></script>
+{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Autotoolized Lua</h1>
+  <p>
+    Patches for autotoolizing the <a href="http://www.lua.org/">Lua
+      programming language</a> interpreter source, i.e. making it GNU
+    use <a href="http://www.gnu.org/software/autoconf/">Autoconf</a>,
+    <a href="http://www.gnu.org/software/automake/">Automake</a>
+    and <a href="http://www.gnu.org/software/libtool/">Libtool</a>.
+  </p>
+  <p>
+    Recently, I have not had the time and energy to maintain these
+    patches anymore. However,
+    the <a href="http://fedoraproject.org/">Fedora</a> packagers, first
+    Hans de Goede and then Tim Niemueller, have developed new patches.
+    Many thanks to them! So, since version 5.1.3, I'm serving the Fedora
+    patches on this page.
+  </p>
+  <p>
+    If you find these patches useful or have any questions or suggestions,
+    please <span class="ma">contact me</span>.
+  </p>
+</section>
+
+{% if news %}
+<section>
+  <h2>News</h2>
+  <ul>
+    {% for entry in news %}
+    <li>
+      <a href="{{ entry.url }}">{{ entry.title }}</a>, on {{ entry.date_str }}
+    </li>
+    {% endfor %}
+  </ul>
+  <a href="/blog/tags/jansson/">More news...</a>
+</section>
+{% endif %}
+
+<section>
+  <h2>Usage</h2>
+  <p>
+    <a href="http://www.lua.org/ftp/">Download</a> and unpack a Lua
+    source tarball and download a patch for your Lua version (see
+    below). Apply the patch:
+  </p>
+  <pre>
+cd lua-X.Y.Z
+bunzip2 -c ../lua-X.Y.Z-autotoolize-rR.patch.bz2 | patch -p1</pre>
+  <p>
+    Change file permissions:
+  </p>
+  <pre>
+chmod +x autogen.sh config.guess config.sub configure \
+    depcomp install-sh missing</pre>
+  <p>
+    Now you're ready to run <tt>./configure</tt>.
+  </p>
+</section>
+
+<section>
+  <h2>Download</h2>
+  <p>
+    These patches are released to public domain. Do whatever you want
+    with them. No warranty.
+    The <a href="http://www.lua.org/license.html">Lua license</a>
+    applies to patched sources.
+  </p>
+  <p>
+    The patches are <a href="http://www.bzip.org/">bzip2</a> compressed.
+    The file names are of
+    form <tt>lua-X.Y.Z-autotoolize-rR.patch.bz2</tt>, where X,Y, and Z
+    are the Lua major, minor and patch versions, respectively. R is the
+    revision of the autotoolize patch, with the highest number being the
+    newest. The old revisions are listed, but you should not use them,
+    because they are most certainly buggy (otherwise there wouldn't be
+    newer versions).
+  </p>
+
+  <table class="download">
+    <tr>
+      <th>Lua version</th>
+      <th>Patch</th>
+    </tr>
+    <tr>
+      <td>
+        <a href="http://www.lua.org/ftp/lua-5.1.4.tar.gz">Lua 5.1.4</a>
+      </td>
+      <td>
+        <a href="release/lua-5.1.4-autotoolize-r1.patch.bz2">lua-5.1.4-autotoolize-r1.patch.bz2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="http://www.lua.org/ftp/lua-5.1.3.tar.gz">Lua 5.1.3</a>
+      </td>
+      <td>
+        <a href="release/lua-5.1.3-autotoolize-r1.patch.bz2">lua-5.1.3-autotoolize-r1.patch.bz2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="http://www.lua.org/ftp/lua-5.1.2.tar.gz">Lua 5.1.2</a>
+      </td>
+      <td>
+        <a href="release/lua-5.1.2-autotoolize-r1.patch.bz2">lua-5.1.2-autotoolize-r1.patch.bz2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="http://www.lua.org/ftp/lua-5.1.1.tar.gz">Lua 5.1.1</a>
+      </td>
+      <td>
+        <a href="release/lua-5.1.1-autotoolize-r1.patch.bz2">lua-5.1.1-autotoolize-r1.patch.bz2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="http://www.lua.org/ftp/lua-5.1.tar.gz">Lua 5.1</a>
+      </td>
+      <td>
+        <a href="release/lua-5.1-autotoolize-r2.patch.bz2">lua-5.1-autotoolize-r2.patch.bz2</a><br>
+        <a class="overstrike" href="release/lua-5.1-autotoolize-r1.patch.bz2">lua-5.1-autotoolize-r1.patch.bz2</a>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Development</h2>
+  <p>
+    The autotoolified source tree is available on GitHub.
+  </p>
+  <ul>
+    <li>
+      <a href="http://github.com/akheron/autotoolized-lua/">Browse
+      source</a> online
+    </li>
+  </ul>
+  <p>
+    There's a branch for each Lua version. Unlike the downloadable
+    patches above, the git tree doesn't contain the files that are
+    generated when bootstrapping autotools. Use <tt>./autogen.sh</tt>
+    to do the bootstrapping. This creates the configure script and
+    other files needed during the build.
+  </p>
+</section>
+{% endblock %}

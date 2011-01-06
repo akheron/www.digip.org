@@ -22,9 +22,14 @@ def render_template(name, ctx={}):
     return lambda context: context.render_template(name, **ctx)
 
 def project(name):
-    ctx = {
-        'news': blog.tags[name].entries[:news_entries],
-    }
+    tag = blog.tags.get(name)
+    if tag:
+        ctx = {
+            'news': tag.entries[:news_entries],
+        }
+    else:
+        ctx = {}
+
     return render_template('%s/index.html' % name, ctx)
 
 def redirect(context, url):
@@ -49,6 +54,9 @@ files = Files(
 
     # Stango
     ('stango/', project('stango')),
+
+    # Autotoolized Lua
+    ('autotoolized-lua/', project('autotoolized-lua')),
 )
 
 # Jansson documentation

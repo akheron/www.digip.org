@@ -48,6 +48,7 @@ tt {
 }
 
 pre {
+    font-family: "Courier new", monospace;
     padding: 5px;
     margin: 10px 25px;
     border: 1px solid #ddd;

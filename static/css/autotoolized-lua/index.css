@@ -1,0 +1,11 @@
+.download th {
+    text-align: left;
+}
+
+.download td, .download th {
+    padding: 3px 7px;
+}
+
+.download tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
