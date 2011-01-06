@@ -49,9 +49,6 @@ files = Files(
 
     # Stango
     ('stango/', project('stango')),
-
-    # Autotoolized Lua
-    ('autotoolized-lua/', render_template('autotoolized-lua/index.html')),
 )
 
 # Jansson documentation

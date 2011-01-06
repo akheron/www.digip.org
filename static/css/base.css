@@ -47,6 +47,14 @@ tt {
     font-family: "Courier new", monospace;
 }
 
+pre {
+    padding: 5px;
+    margin: 10px 25px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: black;
+}
+
 .clear {
     clear: both;
 }
