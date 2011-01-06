@@ -12,7 +12,7 @@ autoreload = ['blog/', 'static/']
 blog = Blog(
     'blog/', 'blog',
     default_author='Petri Lehtinen',
-    entry_suffix='',
+    entry_suffix='.html',
 )
 
 news_entries = 5
