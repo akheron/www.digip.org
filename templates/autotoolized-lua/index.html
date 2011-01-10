@@ -66,7 +66,7 @@ bunzip2 -c ../lua-X.Y.Z-autotoolize-rR.patch.bz2 | patch -p1</pre>
 chmod +x autogen.sh config.guess config.sub configure \
     depcomp install-sh missing</pre>
   <p>
-    Now you're ready to run <tt>./configure</tt>.
+    Now you're ready to run <code>./configure</code>.
   </p>
 </section>
 
@@ -79,14 +79,14 @@ chmod +x autogen.sh config.guess config.sub configure \
     applies to patched sources.
   </p>
   <p>
-    The patches are <a href="http://www.bzip.org/">bzip2</a> compressed.
-    The file names are of
-    form <tt>lua-X.Y.Z-autotoolize-rR.patch.bz2</tt>, where X,Y, and Z
-    are the Lua major, minor and patch versions, respectively. R is the
-    revision of the autotoolize patch, with the highest number being the
-    newest. The old revisions are listed, but you should not use them,
-    because they are most certainly buggy (otherwise there wouldn't be
-    newer versions).
+    The patches are <a href="http://www.bzip.org/">bzip2</a>
+    compressed. The file names are of
+    form <code>lua-X.Y.Z-autotoolize-rR.patch.bz2</code>, where X,Y,
+    and Z are the Lua major, minor and patch versions, respectively. R
+    is the revision of the autotoolize patch, with the highest number
+    being the newest. The old revisions are listed, but you should not
+    use them, because they are most certainly buggy (otherwise there
+    wouldn't be newer versions).
   </p>
 
   <table class="download">
@@ -152,9 +152,10 @@ chmod +x autogen.sh config.guess config.sub configure \
   <p>
     There's a branch for each Lua version. Unlike the downloadable
     patches above, the git tree doesn't contain the files that are
-    generated when bootstrapping autotools. Use <tt>./autogen.sh</tt>
-    to do the bootstrapping. This creates the configure script and
-    other files needed during the build.
+    generated when bootstrapping autotools.
+    Use <code>./autogen.sh</code> to do the bootstrapping. This
+    creates the configure script and other files needed during the
+    build.
   </p>
 </section>
 {% endblock %}
