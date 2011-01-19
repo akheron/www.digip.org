@@ -26,7 +26,8 @@ def slugify(text):
 
 
 class BlogEntry(object):
-    def __init__(self, headers, content):
+    def __init__(self, filename, headers, content):
+        self.filename = filename
         self.title = headers['title']
         if 'slug' in headers:
             self.slug = headers['slug']
@@ -124,14 +125,14 @@ def parse_entry(path):
     for key in ALL_HEADERS:
         headers.setdefault(key, '')
 
-    return BlogEntry(headers, content)
+    return BlogEntry(path, headers, content)
 
 
 def scan(dirpath):
     for filename in os.listdir(dirpath):
         path = os.path.join(dirpath, filename)
         if not os.path.isfile(path):
-            raise ValueError('Not a regular file: %s' % path)
+            continue
 
         yield parse_entry(path)
 
@@ -159,7 +160,7 @@ class Blog(object):
 
         self.entries = sorted(
             scan(self.datadir),
-            key=lambda x: x.date,
+            key=lambda x: [x.date, x.filename],
             reverse=True
         )
 
