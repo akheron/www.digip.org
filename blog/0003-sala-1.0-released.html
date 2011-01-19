@@ -1,0 +1,58 @@
+Title: Sala 1.0 released
+Date: 2011-01-19
+Tags: sala announcement
+
+<p>
+  For some time now, I've been unsatisfied with the state of user
+  names and passwords for the numerous services I use in the web. I'm
+  having hard time to remember all the services I have singed up to
+  and a bad habit of using a few common passwords for all of them.
+</p>
+<p>
+  So, I hacked for a while, and yestreday, I pushed the first release
+  of <a href="http://pypi.python.org/pypi/sala">sala</a> to PyPI. It's
+  is a simple, filesystem based, encrypted password storage system
+  that uses <a href="http://www.gnupg.org/">GnuPG</a>'s symmetrical
+  encryption. As usual, a git repository
+  is <a href="https://github.com/akheron/sala">available at
+  GitHub</a>.
+</p>
+<p>
+  The main idea of sala is to store passwords (or other tiny,
+  plain-text secrets) in encrypted plain-text files in a directory
+  hierarchy, like this:
+</p>
+<pre>/path/to/passwords
+|-- example-service.com
+|   |-- +webmail
+|   |   |-- @myuser
+|   |   `-- @otheruser
+|   `-- +adminpanel
+|       `-- @admin
+`-- my-linux-box
+    |-- @myuser
+    `-- @root
+</pre>
+<p>
+  As sala is a command line utility and there's one file per password,
+  tab completion and other shell goodies are available. The custom of
+  prefixing user names with <code>@</code> and
+  category/group/subservice names with <code>+</code> is my own
+  preference and not enforced by the program. You may come up with
+  your own scheme, for example if you want to protect user names as
+  well as the actual passwords. For more information, see
+  <a href="http://pypi.python.org/pypi/sala">the PyPI page</a>.
+</p>
+<p>
+  Use <code>pip install sala</code> to install,
+  or <a href="http://pypi.python.org/pypi/sala#downloads">download the
+  source</a>, unpack, and invoke <code>python setup.py install</code>.
+  In addition to Python 2.5 or newer, requires <code>gpg</code>
+  and <a href="http://py-gnupg.sourceforge.net/">GnuPGInterface</a>.
+  Currently, Python 3 is not supported because GnuPGInterface doesn't
+  support it.
+</p>
+<p>
+  <b>Update:</b> While writing this blog entry, I found a few
+  packaging bugs, and released version 1.0.1.
+</p>
