@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  {% if feed_name %}
+  <title>{{ feed_name }} - digip.org blog</title>
+  {% else %}
+  <title>digip.org blog</title>
+  {% endif %}
+  <link href="http://www.digip.org/blog/" />
+  <updated>{{ entries.0.date.isoformat() }}Z</updated>
+  <author>
+    <name>Petri Lehtinen</name>
+    <uri>http://www.digip.org/</uri>
+  </author>
+  <id>http://www.digip.org{{ feed_id }}</id>
+
+  {% for entry in entries %}
+  <entry>
+    <title>{{ entry.title }}</title>
+    <link href="http://www.digip.org{{ entry.url }}" />
+    <id>http://www.digip.org{{ entry.url }}</id>
+    <updated>{{ entry.date }}</updated>
+    {% for tag in entry.tags %}
+    <category term="{{ tag.name }}" />
+    {% endfor %}
+    <content type="html">
+      {{ entry.content|e }}
+    </content>
+  </entry>
+  {% endfor %}
+</feed>

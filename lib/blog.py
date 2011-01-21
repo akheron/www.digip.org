@@ -141,6 +141,7 @@ class Blog(object):
     def __init__(self, prefix, datadir,
                  entry_suffix='.html',
                  entries_per_page=5,
+                 feed_entries=30,
                  default_author='',
                  date_format='%Y-%m-%d',
                  tag_pattern=r'^[a-zA-Z0-9.~_-]+$',
@@ -154,6 +155,7 @@ class Blog(object):
         # Preferences
         self.entry_suffix = entry_suffix
         self.entries_per_page = entries_per_page
+        self.feed_entries = feed_entries
 
         self.tags = {}
         self.archive = {}
@@ -202,6 +204,11 @@ class Blog(object):
     def files(self):
         result = Files(
             ('', self.blog_index),
+            (
+                'feed.atom',
+                self.atom,
+                {'feed_id': 'feed.atom', 'entries': self.entries}
+            ),
             ('archive/', self.archive_index),
         )
 
@@ -217,9 +224,9 @@ class Blog(object):
             result.append((url, self.view_entry, {'entry': entry}))
 
         for tag in self.tags.values():
-            result.append(
-                ('tags/%s/' % tag.name, self.view_tag, {'tag': tag})
-            )
+            result += [
+                ('tags/%s/' % tag.name, self.view_tag, {'tag': tag}),
+            ]
 
         for year in self.archive:
             for month in self.archive[year]:
@@ -266,3 +273,11 @@ class Blog(object):
             entries=self.archive[year][month],
         )
         return context.render_template('blog/archive.html', **ctx)
+
+    def atom(self, context, feed_id, entries, feed_name=None):
+        return context.render_template(
+            'blog/feed.atom',
+            entries=entries[:self.feed_entries],
+            feed_id='/' + self.prefix + feed_id,
+            feed_name=feed_name,
+        )
