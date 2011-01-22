@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
+{% block meta %}
+{{ super() }}
+<link rel="alternate" href="http://feeds.feedburner.com/digiporg-blog" type="application/atom+xml" title="digip.org blog" />
+{% endblock %}
+
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="/css/blog.css">
 {% endblock %}
 
 {% block content %}
-<div id="bloghead">digip.org blog</div>
+<div id="bloghead">
+  digip.org blog
+  <a href="http://feeds.feedburner.com/digiporg-blog" rel="alternate" type="application/atom+xml"><img id="feed-icon" src="/img/feed.png" alt=""></a>
+</div>
 <div id="blogmenu">
   <ul>
     <li><a href="/">home</a></li>
