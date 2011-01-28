@@ -1,0 +1,93 @@
+Title: Generating data files in setup.py
+Date: 2011-01-28
+Tags: python distutils
+
+<p>
+  In a work project, I have a few JavaScript files that are generated
+  from a bunch of other files. The project is
+  a <a href="http://www.djangoproject.com/">Django</a> website, so I
+  just have views that generate the files on-the-fly when running in
+  debug mode, and everything works nice and smooth.
+</p>
+<p>
+  For production, though, I needed the flat files that would be served
+  from disk. I figured out that the best approach would be to generate
+  the files in <code>setup.py</code> upon installation, but I could
+  only
+  find <a href="http://docs.python.org/distutils/extending.html#integrating-new-commands">very
+  superficial documentation</a> on how to do that.
+</p>
+<p>
+  A brief intro to <code>setup.py</code>: In every
+  project's <code>setup.py</code> file, the <code>setup</code>
+  function, from Python standard library's <code>distutils.core</code>
+  module, is used to define the project's files and metadata.
+  (<code>setup</code> can also be imported from
+  from <a href="http://pypi.python.org/pypi/setuptools">setuptools</a>
+  or <a href="http://pypi.python.org/pypi/distribute">distribute</a>,
+  but they're compatible with distutils.) With the standard commands
+  that <code>setup.py</code> provides, the files and metadata can be
+  compiled to an egg, distributed as a source tarball, uploaded
+  to <a href="http://pypi.python.org/">PyPI</a>, and so on.
+</p>
+<p>
+  The entry point to altering <code>setup.py</code>'s behaviour is the
+  optional <code>cmdclass</code> argument to the <code>setup</code>
+  function. It's value is a <code>dict</code> from command names
+  to <code>distutils.command.Command</code> subclasses that implement
+  the commands. The <code>build_py</code> command is where the package
+  data files are installed, so to override <code>build_py</code>, I
+  created the class <code>my_build_py</code> and registered it, like
+  this:
+</p>
+<pre>
+<code>from distutils.core import setup
+from distutils.command.build_py import build_py
+
+class my_build_py(build_py):
+    # ...
+
+setup(
+    # Define metadata, files, etc.
+    # ...
+    cmdclass={'build_py': my_build_py}
+)
+</code></pre>
+<p>
+  The <code>run</code> method of <code>build_py</code>, along with
+  copying and compiling the Python source files, is responsible for
+  copying the packages data files to the build directory
+  <code>build/lib.&lt;platform&gt;</code>. (The actual directory name
+  is stored in the <code>build_py</code>
+  instance's <code>self.build_lib</code> variable.)
+</p>
+<p>
+  To install your own files, just override the <code>run</code>
+  method. Remember to call the superclass after you're done with your
+  own files.
+</p>
+<pre>
+<code>def generate_content():
+    # generate the file content...
+    return content
+
+class my_build_py(build_py):
+    def run(self):
+        # honor the --dry-run flag
+        if not self.dry_run:
+            target_dir = os.path.join(self.build_lib, 'mypkg/media')
+
+            # mkpath is a distutils helper to create directories
+            self.mkpath(target_dir)
+
+            with open(os.path.join(target_dir, 'myfile.js'), 'w'):
+                fobj.write(generate_content())
+
+        # distutils uses old-style classes, so no super()
+        build_py.run(self)
+</code></pre>
+<p>
+  And that's it! A later phase of the installation copies everything
+  from <code>build/lib.&lt;platform&gt;</code> to the correct place,
+  so your generated file gets in, too.
+</p>
