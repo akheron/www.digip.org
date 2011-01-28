@@ -44,15 +44,14 @@ ul {
 }
 
 tt {
-    font-family: "Courier new", monospace;
+    font-family: monospace;
 }
 
 pre {
-    font-family: "Courier new", monospace;
-    padding: 5px;
-    margin: 10px 25px;
+    font-family: monospace;
+    margin: 13px 25px;
     border: 1px solid #ddd;
-    background-color: #f8f8f8;
+    background-color: #f0f0f0;
     color: black;
 }
 

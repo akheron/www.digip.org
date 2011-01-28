@@ -8,6 +8,15 @@
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="/css/blog.css">
+<link rel="stylesheet" href="http://yandex.st/highlightjs/5.16/styles/default.min.css">
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="http://yandex.st/highlightjs/5.16/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
 {% endblock %}
 
 {% block content %}
