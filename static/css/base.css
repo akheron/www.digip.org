@@ -43,16 +43,17 @@ ul {
     list-style-type: square;
 }
 
-tt {
-    font-family: monospace;
+code, pre {
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
 }
 
 pre {
-    font-family: monospace;
     margin: 13px 25px;
     border: 1px solid #ddd;
     background-color: #f0f0f0;
     color: black;
+    line-height: 130%;
 }
 
 .clear {
