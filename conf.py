@@ -25,7 +25,7 @@ def project(name):
     tag = blog.tags.get(name)
     if tag:
         ctx = {
-            'news': tag.entries[:news_entries],
+            'news': reversed(tag.entries[:news_entries]),
         }
     else:
         ctx = {}
@@ -50,7 +50,7 @@ files = Files(
 
     # Jansson
     ('jansson/', project('jansson')),
-    ('jansson/doc/', redirect, {'url': '1.3/'}),
+    ('jansson/doc/', redirect, {'url': '2.0/'}),
 
     # Stango
     ('stango/', project('stango')),
@@ -60,7 +60,7 @@ files = Files(
 )
 
 # Jansson documentation
-for version in ['1.0', '1.1', '1.2', '1.3']:
+for version in ['1.0', '1.1', '1.2', '1.3', '2.0']:
     files += files_from_tar(
         'jansson/doc/%s/' % version,
         'jansson/doc-%s.tar.bz2' % version,
