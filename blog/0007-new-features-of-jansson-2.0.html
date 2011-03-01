@@ -1,0 +1,123 @@
+Title: New features of Jansson 2.0, part 1
+Date: 2011-03-01
+Tags: jansson
+
+<p>
+  This post starts a series of articles that give insight to the new
+  features of Jansson 2.0.
+</p>
+<p>
+  First up is
+  the <a href="/jansson/doc/2.0/apiref.html#parsing-and-validating-values"><code>json_unpack()</code></a>
+  API. I think it's the most powerful new feature, allowing the user
+  to perform two things on a JSON value: data extraction, and
+  validation against a simple schema. The idea has been stolen from
+  <a href="http://docs.python.org/c-api/arg.html">Python's C API</a>.
+<p>
+<p>
+  Example:
+</p>
+<pre class="highlight c">/* Assume that obj is the following JSON object:
+ *   {"x": 15.4, "y": 99.8, "z": 42}}
+ */
+json_t *obj;
+double x, y, z;
+
+if(json_unpack(obj, "{s:f, s:f, s:f}", "x", &x, "y", &y, "z", &z))
+    return -1;  /* error */
+
+assert(x == 15.4 && y == 99.8 && z == 42);
+</pre>
+<p>
+  The <em>format string</em> passed to <code>json_unpack()</code>
+  describes the structure of the object. The <code>s</code> format
+  denotes an object key, and the <code>f</code> format means a real
+  number value. Whitespace, <code>:</code> and <code>,</code> are
+  ignored, so <code>{sfsfsf}</code> would be an equivalent format
+  string to the one above.
+</p>
+<p>
+  After the format string, there's one argument for each
+  format character. For object keys, a string specifies what key is
+  accessed, and for real numbers, a pointer to double gives an address
+  where to store the value.
+</p>
+<p>
+ The equivalent code without <code>json_unpack()</code> would be
+ something like this:
+</p>
+<pre class="highlight c">json_t *obj, *tmp;
+double x, y, x;
+
+tmp = json_object_get(obj, "x");
+if(!json_is_real(tmp))
+    return -1;  /* error */
+x = json_real_value(tmp);
+
+/* repeat for y and z */
+/* ... */
+
+printf("x: %f, y: %f, z: %f\n", x, y, z);
+/* ==> x: 15.4, y: 99.8, z: 42 */
+</pre>
+<p>
+  The code that uses <code>json_unpack()</code> is much shorter and
+  cleaner, and it's easier to see what it's doing.
+</p>
+<p>
+  Nested values are supported, too:
+</p>
+<pre class="highlight c">/* Assume that nested is the following JSON object:
+ *   {"foo": {"bar": [11, 12, 13]}}
+ */
+json_t *nested;
+int i1, i2, i3;
+
+if(json_unpack(nested, "{s:{s:[iii]}}", "foo", "bar", &i1, &i2, &i3))
+    return -1;  /* error */
+
+assert(i1 == 11 && i2 == 12 && i3 == 13);
+</pre>
+<p>
+  This time, the format string has two nested objects and a nested
+  array. There's no limit on the nesting levels. The variable
+  arguments are used in the "flat" order in which they appear in the
+  format string.
+</p>
+<p>
+  The same API can also be used in a validation-only mode, i.e.
+  without extracting any values. Error messages are also available:
+</p>
+<pre class="highlight c">/* Assume the same JSON object as in the previous example */
+json_t *nested;
+json_error_t error;
+
+if(json_unpack_ex(nested, &error, JSON_VALIDATE_ONLY,
+   "{s:{s:[iii]}}", "foo", "bar"))
+{
+    fprintf(stderr, "Error: %d:%d: %s\n", error.line, error.column, error.text);
+    return -1;
+}
+</pre>
+<p>
+  The <code>json_unpack_ex()</code> function is the extended version
+  of <code>json_unpack()</code>. It takes an error parameter, similar
+  to decoding functions, and optional flags to control the behaviour.
+  The <code>JSON_VALIDATE_ONLY</code> flags tells it to only validate
+  and not to extract anything. Extra arguments after the format sting
+  are only required for object keys. The available validation is quite
+  simple, only the object/array structure and value types can be
+  checked, but usually this saves a lot of code.
+</p>
+<p>
+  I strongly believe that this feature, along with
+  the <code>json_pack()</code> API described in the next part, will
+  make it an order of magnitude more pleasant to manipulate JSON data
+  in C. Many thanks to <strong>Graeme Smecher</strong> for suggesting
+  this and providing the initial implementation.
+</p>
+<p>
+  This article only gave a few examples. For full details, all
+  available format characters and flags, see
+  the <a href="/jansson/doc/2.0/apiref.html#parsing-and-validating-values">documentation</a>.
+</p>
