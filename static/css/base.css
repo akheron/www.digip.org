@@ -52,7 +52,7 @@ pre {
     line-height: 130%;
 }
 
-.pygments {
+.pygments, pre.plain {
     margin: 13px 25px;
     padding: 5px;
     border: 1px solid #ddd;

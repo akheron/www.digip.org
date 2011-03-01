@@ -56,14 +56,12 @@
     source tarball and download a patch for your Lua version (see
     below). Apply the patch:
   </p>
-  <pre>
-cd lua-X.Y.Z
+  <pre class="plain">cd lua-X.Y.Z
 bunzip2 -c ../lua-X.Y.Z-autotoolize-rR.patch.bz2 | patch -p1</pre>
   <p>
     Change file permissions:
   </p>
-  <pre>
-chmod +x autogen.sh config.guess config.sub configure \
+  <pre class="plain">chmod +x autogen.sh config.guess config.sub configure \
     depcomp install-sh missing</pre>
   <p>
     Now you're ready to run <code>./configure</code>.
