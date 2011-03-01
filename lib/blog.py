@@ -36,8 +36,32 @@ class BlogEntry(object):
         self.author = headers.get('author', None)
         self.date = headers['date']
         self.tags = headers['tags']
-        self.content = content
+        self.content = self.process_content(content)
         self.url = None
+
+    def process_content(self, content):
+        from pygments import highlight
+        from pygments.lexers import get_lexer_by_name
+        from pygments.formatters import HtmlFormatter
+
+        sub = '<pre class="highlight '
+        start = content.find(sub)
+        while start != -1:
+            lang_start = start + len(sub)
+            lang_end = content.find('">', start)
+            code_start = lang_end + len('">')
+            code_end = content.find('</pre>', start)
+            end = code_end + len('</pre>')
+
+            code = content[code_start:code_end]
+            lexer = get_lexer_by_name(content[lang_start:lang_end])
+            formatter = HtmlFormatter(cssclass="pygments")
+            highlighted = highlight(code, lexer, formatter)
+
+            content = content[:start] + highlighted + content[end + 1:]
+            start = content.find(sub)
+
+        return content
 
     def __hash__(self):
         return hash(self.slug)

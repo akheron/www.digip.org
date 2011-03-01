@@ -49,11 +49,13 @@ code, pre {
 }
 
 pre {
-    margin: 13px 25px;
-    border: 1px solid #ddd;
-    background-color: #f0f0f0;
-    color: black;
     line-height: 130%;
+}
+
+.pygments {
+    margin: 13px 25px;
+    padding: 5px;
+    border: 1px solid #ddd;
 }
 
 .clear {

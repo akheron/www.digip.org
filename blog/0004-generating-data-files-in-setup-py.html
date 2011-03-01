@@ -40,8 +40,7 @@ Tags: python distutils
   created the class <code>my_build_py</code> and registered it, like
   this:
 </p>
-<pre>
-<code>from distutils.core import setup
+<pre class="highlight python">from distutils.core import setup
 from distutils.command.build_py import build_py
 
 class my_build_py(build_py):
@@ -52,7 +51,7 @@ setup(
     # ...
     cmdclass={'build_py': my_build_py}
 )
-</code></pre>
+</pre>
 <p>
   The <code>run</code> method of <code>build_py</code>, along with
   copying and compiling the Python source files, is responsible for
@@ -66,8 +65,7 @@ setup(
   method. Remember to call the superclass after you're done with your
   own files.
 </p>
-<pre>
-<code>def generate_content():
+<pre class="highlight python">def generate_content():
     # generate the file content...
     return content
 
@@ -85,7 +83,7 @@ class my_build_py(build_py):
 
         # distutils uses old-style classes, so no super()
         build_py.run(self)
-</code></pre>
+</pre>
 <p>
   And that's it! A later phase of the installation copies everything
   from <code>build/lib.&lt;platform&gt;</code> to the correct place,
