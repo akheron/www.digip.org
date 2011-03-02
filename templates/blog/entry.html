@@ -1,23 +1,10 @@
 {% extends "blog/base.html" %}
+{% import "blog/macros.html" as macros %}
+
 {% set title = entry.title + " &mdash; digip.org blog" %}
 
 {% block blogcontent %}
 <article>
-  <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
-
-  <div class="head info">
-    By <a href="/about/">{{ entry.author }}</a> on {{ entry.date_str }}
-  </div>
-
-  {{ entry.content }}
-
-  {% if entry.tags %}
-  <div class="tail info">
-    Tags:
-    {% for tag in entry.tags %}
-    <a href="{{ tag.url }}">{{ tag.name }}</a>
-    {% endfor %}
-  </div>
-  {% endif %}
+  {{ macros.make_entry(entry, "h1") }}
 </article>
 {% endblock %}
