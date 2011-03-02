@@ -1,0 +1,75 @@
+Title: New features of Jansson 2.0, part 2
+Date: 2011-03-02
+Tags: jansson
+
+<p>
+  This post continues a series of articles that give insight to the
+  new features of Jansson 2.0;
+  see <a href="new-features-of-jansson-2.0-part-1.html">part 1</a>.
+</p>
+<p>
+  This article is about
+  the <a href="/jansson/doc/2.0/apiref.html#building-values"><code>json_pack()</code></a>
+  API. It allows the user to build arbitrary JSON values using a
+  simple format string-based approach. As with
+  <code>json_unpack()</code>, the idea has been stolen from
+  <a href="http://docs.python.org/c-api/arg.html">Python's C API</a>.
+</p>
+<p>
+  Here are some examples:
+</p>
+<pre class="highlight c">json_pack("i", 42);
+/* -> JSON integer 42 */
+
+json_pack("{s: s, s: i}", "foo", "bar", "baz", 123);
+/* -> JSON object {"foo": "bar", "baz": 123} */
+
+json_pack("{s: [{s: i}, {s: i}]}", "data", "value", 15, "value", 16);
+/* -> JSON object {"data": [{"value": 15}, {"value": 16}]} */
+</pre>
+<p>
+  The first argument is a <em>format string</em> that describes the
+  type and structure of the value that's being built. The
+  format <code>i</code> creates an integer and <code>s</code> means a
+  string (both as a value and an object key). <code>{}</code>
+  and <code>[]</code> are used to build objects and arrays.
+  Whitespace, <code>:</code> and <code>,</code> are ignored. As the
+  last example shows, objects and arrays can be nested, there is no
+  limit on the nesting depth. <code>json_pack()</code> returns the new
+  JSON value, or <code>NULL</code> on error.
+</p>
+<p>
+  <code>json_pack_ex()</code> is also available. It makes it possible
+  to get error messages and pass flags, although currently no flags
+  are defined. Example:
+</p>
+<pre class="highlight c">json_t *value;
+json_error_t error;
+
+value = json_pack_ex(&error, 0, "[iii]", 1, 2, 3);
+if(!value) {
+    fprintf(stderr, "Error: %d:%d: %s\n", error.line, error.column, error.text);
+    return -1;  /* error */
+}
+
+/* ... */
+
+json_decref(value);
+</pre>
+<p>
+  The errors that may occur are problems with the format string (e.g.
+  unbalanced <code>}</code> or an invalid format character), out of
+  memory errors and invalid UTF-8 in strings, so this function is
+  mainly useful for debugging format strings.
+</p>
+<p>
+  <code>json_pack()</code> provides a powerful means of creating JSON
+  values, both simple and complex. Without it, you might need tens of
+  lines of code with ugly temporary variables to make nested objects
+  or arrays. I think this is a great addition to Jansson's API and
+  will make it a whole lot easier to create JSON data in C.
+</p>
+<p>
+  For full details of format characters, see
+  the <a href="/jansson/doc/2.0/apiref.html#building-values">documentation</a>.
+</p>
