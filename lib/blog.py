@@ -25,6 +25,64 @@ def slugify(text):
     return ''.join(normalized).rstrip('-').lower()
 
 
+# Blog entry content processors
+
+def pygments_processor(blog, content):
+    '''Highlights source code samples with pygments'''
+
+    from pygments import highlight
+    from pygments.lexers import get_lexer_by_name
+    from pygments.formatters import HtmlFormatter
+
+    sub = '<pre class="highlight '
+    start = content.find(sub)
+    while start != -1:
+        lang_start = start + len(sub)
+        lang_end = content.find('">', start)
+        code_start = lang_end + len('">')
+        code_end = content.find('</pre>', start)
+        if code_end == -1:
+            start = content.find(sub, code_start)
+            continue
+
+        end = code_end + len('</pre>')
+
+        code = content[code_start:code_end] \
+               .replace('&lt;', '<') \
+               .replace('&gt;', '>') \
+               .replace('&amp;', '&')
+        lexer = get_lexer_by_name(content[lang_start:lang_end])
+        formatter = HtmlFormatter(cssclass="pygments")
+        highlighted = highlight(code, lexer, formatter)
+
+        content = content[:start] + highlighted + content[end + 1:]
+        start = content.find(sub, end)
+
+    return content
+
+
+def template_processor(blog, content):
+    '''Renders the blog entry as a Jinja template'''
+
+    import jinja2
+
+    def entry_url_func(slug):
+        for entry in blog.entries:
+            if entry.slug == slug:
+                return entry.url
+
+        raise ValueError('Entry not found: %s' % slug)
+
+    context = {'entry_url': entry_url_func}
+    template = jinja2.Template(content)
+    return template.render(context)
+
+
+ENTRY_PROCESSORS = [
+    pygments_processor,
+    template_processor,
+]
+
 class BlogEntry(object):
     def __init__(self, filename, headers, content):
         self.filename = filename
@@ -36,32 +94,15 @@ class BlogEntry(object):
         self.author = headers.get('author', None)
         self.date = headers['date']
         self.tags = headers['tags']
-        self.content = self.process_content(content)
+        self.content = content
         self.url = None
 
-    def process_content(self, content):
-        from pygments import highlight
-        from pygments.lexers import get_lexer_by_name
-        from pygments.formatters import HtmlFormatter
+    def render(self, blog):
+        content = self.content
+        for processor in ENTRY_PROCESSORS:
+            content = processor(blog, content)
 
-        sub = '<pre class="highlight '
-        start = content.find(sub)
-        while start != -1:
-            lang_start = start + len(sub)
-            lang_end = content.find('">', start)
-            code_start = lang_end + len('">')
-            code_end = content.find('</pre>', start)
-            end = code_end + len('</pre>')
-
-            code = content[code_start:code_end]
-            lexer = get_lexer_by_name(content[lang_start:lang_end])
-            formatter = HtmlFormatter(cssclass="pygments")
-            highlighted = highlight(code, lexer, formatter)
-
-            content = content[:start] + highlighted + content[end + 1:]
-            start = content.find(sub)
-
-        return content
+        self.content = content
 
     def __hash__(self):
         return hash(self.slug)
@@ -224,6 +265,9 @@ class Blog(object):
         for tag in self.tags.values():
             tag.url = '%stags/%s/' % (self.abs_prefix, tag.name)
 
+        for entry in self.entries:
+            entry.render(self)
+
     @property
     def files(self):
         result = Files(
@@ -274,29 +318,26 @@ class Blog(object):
         result.update(self.extra_context)
         return result
 
+    def _render(self, context, template, **kwargs):
+        ctx = self._template_context(**kwargs)
+        return context.render_template(template, **ctx)
+
     def blog_index(self, context):
-        ctx = self._template_context(entries=self.entries)
-        return context.render_template('blog/index.html', **ctx)
+        return self._render(context, 'blog/index.html', entries=self.entries)
 
     def archive_index(self, context):
-        ctx = self._template_context()
-        return context.render_template('blog/archive_index.html', **ctx)
+        return self._render(context, 'blog/archive_index.html')
 
     def view_entry(self, context, entry):
-        ctx = self._template_context(entry=entry)
-        return context.render_template('blog/entry.html', **ctx)
+        return self._render(context, 'blog/entry.html', entry=entry)
 
     def view_tag(self, context, tag):
-        ctx = self._template_context(tag=tag)
-        return context.render_template('blog/tag.html', **ctx)
+        return self._render(context, 'blog/tag.html', tag=tag)
 
     def view_archive(self, context, year, month):
-        ctx = self._template_context(
-            year=year,
-            month=month,
-            entries=self.archive[year][month],
-        )
-        return context.render_template('blog/archive.html', **ctx)
+        return self._render(context,'blog/archive.html',
+                            year=year, month=month,
+                            entries=self.archive[year][month])
 
     def atom(self, context, feed_id, entries, feed_name=None):
         return context.render_template(
