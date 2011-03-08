@@ -30,7 +30,7 @@ section {
     margin-bottom: 20px;
 }
 
-p {
+p, dl {
     margin-bottom: 13px;
 }
 
@@ -60,4 +60,23 @@ pre {
 
 .clear {
     clear: both;
+}
+
+table {
+    margin: 13px 25px;
+    border: 1px solid #ddd;
+}
+
+table th, table td {
+    padding: 2px 8px;
+    text-align: left;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 26px;
+    margin-bottom: 8px;
 }

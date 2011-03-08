@@ -1,0 +1,157 @@
+Title: New features of Jansson 2.0, part 3
+Date: 2011-03-08
+Tags: jansson
+
+<p>
+  This post is the last one in a series of articles that give insight
+  to the new features of Jansson 2.0; see <a href="{{
+  entry_url('new-features-of-jansson-2.0-part-1') }}">part 1</a> and
+  <a href="{{ entry_url('new-features-of-jansson-2.0-part-2') }}">part
+  2</a>.
+</p>
+
+<h3>Integer type</h3>
+<p>
+  Up to version 1.3, the underlying type of JSON integer values
+  was <code>int</code>. This approach limited the available numeric
+  range and caused problems when using
+  the <a href="http://dev.twitter.com/">Twitter API</a>, for example,
+  as it uses 64 bit integer IDs.
+</p>
+<p>
+  To overcome these issues, the underlying integer type was changed to
+  the widest signed integer available in the system, i.e.
+  <code>long long</code> if it's supported, falling back to
+  plain <code>long</code> for older systems.
+  The <code>json_int_t</code> typedef defines the actual type. The
+  preprocessor constant <code>JSON_INTEGER_IS_LONG_LONG</code> is set
+  to 1 if <code>long long</code> is supported,
+  and <code>JSON_INTEGER_FORMAT</code> can be used for
+  printing <code>json_int_t</code> values:
+</p>
+<pre class="highlight c">
+json_t *myint = json_integer(123);
+printf("%" JSON_INTEGER_FORMAT "\n", json_integer_value(myint));
+</pre>
+<p>
+  <code>int</code> should still be used in most cases when dealing
+  with smallish JSON integers, as the compiler handles implicit type
+  coercion. Only when the full 64-bit range is
+  needed, <code>json_int_t</code> should be explicitly used.
+</p>
+
+<h3>Error reporting enhancements</h3>
+<p>
+  New fields were added to the <code>json_error_t</code> struct that
+  is used to pass error information to the caller. The following table
+  lists all the fields. New fields in version 2.0 are marked
+  with <em>(new)</em>.
+</p>
+<table>
+  <tr>
+    <th><code>char text[]</code></th>
+    <td>UTF-8 error message</td>
+    <td></td>
+  </tr>
+  <tr>
+    <th><code>char source[]</code></th>
+    <td>Error source (e.g. file name)</td>
+    <td><em>(new)</new></td>
+  </tr>
+  <tr>
+    <th><code>int line</code></th>
+    <td>Input line</td>
+    <td></td>
+  </tr>
+  <tr>
+    <th><code>int column</code></th>
+    <td>Character column on the input line</td>
+    <td><em>(new)</new></td>
+  </tr>
+  <tr>
+    <th><code>int position</code></th>
+    <td>Number of bytes from the beginning of the input</td>
+    <td><em>(new)</new></td>
+  </tr>
+</table>
+<p>
+  <code>column</code> is the Unicode character column on which the
+  error was encountered, i.e. a multi-byte UTF-8 character in input is
+  treated as one character column. This may make it hard to debug
+  Unicode problems. To remedy this, <code>position</code> gives the
+  byte position of the error from the start of the input.
+</p>
+<p>
+  <code>source</code> is a string that contains the source of the
+  error. When decoding, it is <code>"&lt;string&gt;"</code> when
+  using <code>json_loads()</code>, <code>"&lt;stream&gt;"</code> when
+  using <code>json_loadf()</code>, and the input file name when
+  using <code>json_load_file()</code>.
+</p>
+<p>
+  The <code>json_error_t</code> struct is also used to return errors
+  from <a href="{{ entry_url('new-features-of-jansson-2.0-part-1')
+  }}"><code>json_unpack_ex()</code></a> and <a href="{{
+  entry_url('new-features-of-jansson-2.0-part-2')
+  }}"><code>json_pack_ex()</code></a>. In this
+  case, <code>line</code>, <code>column</code>
+  and <code>position</code> point to the position in the format string
+  on which the error occured. <code>source</code>
+  is <code>"&lt;format&gt;"</code> when the format string is
+  invalid, <code>"&lt;args&gt;"</code> when there are problems with
+  the variadic arguments (e.g. <code>NULL</code> string argument or
+  invalid UTF-8 string), <code>"&lt;validation&gt;"</code> when the
+  value being unpacked doesn't validate against the format string,
+  or <code>&lt;internal&gt;</code> when an internal error occurs (e.g.
+  out of memory).
+</p>
+
+<h3>Library version</h3>
+<p>
+  Preprocessor constans defining the Jansson library version were
+  added:
+</p>
+<dl>
+  <dt>
+    <code>JANSSON_VERSION_MAJOR</code>,
+    <code>JANSSON_VERSION_MINOR</code>,
+    <code>JANSSON_VERSION_MICRO</code>
+  </dt>
+  <dd>
+    Integers specifying the major, minor and micro versions, respectively.
+  </dd>
+
+  <dt><code>JANSSON_VERSION</code></dt>
+  <dd>
+    A string representation of the current version,
+    e.g. <code>"1.2.1"</code> or <code>"1.3"</code>. When micro
+    version is zero, it's omitted from the version string.
+  </dd>
+
+  <dt><code>JANSSON_VERSION_HEX</code></dt>
+  <dd>
+    A 3-byte hexadecimal representation of the version, e.g. 0x010201
+    for version 1.2.1 and 0x010300 for version 1.3. This is useful in
+    numeric comparisions, e.g.:
+
+    <pre class="highlight c">#if JANSSON_VERSION_HEX &gt;= 0x010300
+/* Code specific to version 1.3 and above */
+#endif
+</pre>
+  </dd>
+</dl>
+
+<h3>Custom memory allocation</h3>
+<p>
+  A function to set custom memory allocation functions was added. For
+  example, to use
+  the <a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/">Boehm's
+  conservative garbage collector</a>, use
+</p>
+<pre class="highlight c">json_set_alloc_funcs(GC_malloc, GC_free);
+</pre>
+<p>
+  Quite obviously, <code>json_set_alloc_funcs()</code> needs to be
+  called before any other Jansson API function to make sure that all
+  values are allocated and freed with the same set of functions.
+</p>
