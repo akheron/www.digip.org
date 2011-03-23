@@ -1,8 +1,8 @@
-#projects {
+#areas {
     margin-bottom: 40px;
 }
 
-.project {
+#areas > div {
     max-width: 625px;
     margin: 13px 0;
     padding: 13px;
@@ -16,38 +16,47 @@
     -webkit-box-shadow: #777 5px 5px 10px;
 }
 
-.no-boxshadow .project {
+#areas > h2, #areas > p {
+    margin-left: 13px;
+    font-size: 11pt;
+    font-style: oblique;
+    font-weight: normal;
+    border: 0;
+}
+
+#areas > h2 {
+    margin-top: 30px;
+}
+
+#areas > p {
+    margin-top: 15px;
+}
+
+.no-boxshadow #areas > div {
     border: 2px solid #777;
 }
 
-.js .project {
+.js #areas > div {
     /* If Javascript is available, the whole project badge is clickable */
     cursor: pointer;
 }
 
-.no-js .project h2 a {
+.no-js .#areas > div h3 a {
     /* Otherwise, underline the text */
     text-decoration: underline;
 }
 
-.project h2 {
+#areas > div h3 {
     border: 0;
 }
 
-.project h2 a {
+#areas > div h3 a {
     color: #333;
     text-decoration: none;
     border: 0;
 }
 
 #blog { background-color: #ddf; }
-#jansson { background-color: #dfd; }
-#stango { background-color: #fdd; }
-#about { background-color: #fea; }
-
-#gravatar {
-    float: right;
-    margin: 0 0 10px 10px;
-    width: 100px;
-    height: 100px;
-}
+#about { background-color: #dfd; }
+#jansson { background-color: #fdd; }
+#stango { background-color: #fea; }
