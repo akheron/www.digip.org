@@ -1,0 +1,170 @@
+<!-- utf-8 --><!DOCTYPE html>
+<html lang="en"><!-- en -->
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
+<title>SALA(1)</title>
+<link rel="stylesheet" href="manpage.css" type="text/css">
+</head>
+<body>
+<div class="document" id="sala">
+<div class="header"><div class="left">SALA(1)</div><div class="right">SALA(1)</div><div class="center">User Commands</div></div>
+<div class="section" id="name"><h2>NAME</h2><p>sala - encrypted plaintext password store</p></div>
+
+<div class="section" id="synopsis">
+<h2>SYNOPSIS</h2>
+<p><strong>sala</strong> [<em>OPTIONS</em>]... [<em>COMMAND</em>] [<em>FILE</em>]...</p>
+</div>
+<div class="section" id="description">
+<h2>DESCRIPTION</h2>
+<p>Store passwords and other bits of sensitive plain-text information to
+encrypted files on a directory hierarchy. The information is protected
+by GnuPG's symmetrical encryption.</p>
+<dl class="docutils">
+<dt><code class="docutils literal">sala init</code></dt>
+<dd>Initialize a password store</dd>
+<dt><code class="docutils literal">sala get <span class="pre">FILE...</span></code></dt>
+<dd>Read secret(s)</dd>
+<dt><code class="docutils literal">sala set <span class="pre">FILE...</span></code></dt>
+<dd>Create or modify secret(s)</dd>
+<dt><code class="docutils literal">sala <span class="pre">FILE...</span></code></dt>
+<dd>Read or modify, depending on whether the first file exists or not</dd>
+</dl>
+</div>
+<div class="section" id="options">
+<h2>OPTIONS</h2>
+<table class="docutils option-list">
+<col class="option" />
+<col class="description" />
+<tbody>
+<tr><td class="option-group">
+<kbd><span class="option">-v</span>, <span class="option">--version</span></kbd></td>
+<td>Show version information</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>Show help</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tutorial">
+<h2>TUTORIAL</h2>
+<p>Passwords are stored in a directory hierarchy, each file containing
+one secret, like this:</p>
+<pre class="literal-block">
+/path/to/passwords
+|-- example-service.com
+|   |-- +webmail
+|   |   |-- &#64;myuser
+|   |   `-- &#64;otheruser
+|   `-- +adminpanel
+|       `-- &#64;admin
+`-- my-linux-box
+    |-- &#64;myuser
+    `-- &#64;root
+</pre>
+<p>I use a convention of naming directories after services and using
+<code class="docutils literal">&#64;username</code> as the file name. If a service has groups, categories,
+subservices, etc., I use subdirectories whose names are prefixed with
+<code class="docutils literal">+</code>. This naming scheme is not enforced by sala, and you can come up
+with your own scheme, for example if you want to hide the usernames,
+too.</p>
+<p>To create a new password store, first create an empty directory,
+change into it, and invoke:</p>
+<pre class="literal-block">
+$ sala init
+</pre>
+<p>This command asks for the master passphrase you want to use for the
+store. It then initializes the password store by creating a long
+random key and encrypting it with the master passphrase.</p>
+<p>Create a new password for <code class="docutils literal"><span class="pre">service/&#64;myuser</span></code>:</p>
+<pre class="literal-block">
+$ sala set service/&#64;myuser
+</pre>
+<p>This command first asks you for the master passphrase, and then the
+secret that should be stored to the file <code class="docutils literal"><span class="pre">service/&#64;myuser</span></code>. The
+intermediate directory <code class="docutils literal">service</code> is created automatically.</p>
+<p>To read the secret you just stored, invoke:</p>
+<pre class="literal-block">
+$ sala get service/&#64;myuser
+</pre>
+<p>This command asks again for the master passphrase, and outputs the
+secret.</p>
+<p>All the files are just normal files, so you can safely remove or
+rename files if you want to.</p>
+<p>The above commands can also be used on multiple files at once:</p>
+<pre class="literal-block">
+$ sala set service2/&#64;myuser service3/&#64;otheruser
+$ sala get service2/&#64;myuser service3/&#64;otheruser
+</pre>
+<p>If no command is specified, sala assumes <code class="docutils literal">get</code> if the first file
+exists and <code class="docutils literal">set</code> otherwise. That is, the command:</p>
+<pre class="literal-block">
+$ sala foo/&#64;bar
+</pre>
+<p>reads the secret <code class="docutils literal"><span class="pre">foo/&#64;bar</span></code> if the file exists, and creates a new
+secret otherwise. Note that this may not work as you expect for
+multiple files, as the existence of the first file determines whether
+to read or to write.</p>
+</div>
+<div class="section" id="configuration">
+<h2>CONFIGURATION</h2>
+<p>Sala can be configured with an ini-style configuration file. Sala
+tries to read its configuration files in this order:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">~/.sala.conf</span></code></li>
+<li><code class="docutils literal"><span class="pre">~/.config/sala.conf</span></code> (more specifically
+<code class="docutils literal">$XDG_CONFIG_HOME/sala.conf</code>)</li>
+<li><code class="docutils literal">sala.conf</code> in the top directory of the password store</li>
+</ul>
+<p>None of the files are required. If a configuration setting is
+specified in more than one file, the latter file (in the list above)
+takes precedence.</p>
+<p>Here's the default configuration:</p>
+<pre class="literal-block">
+# All configuration settings are in the [sala] section.
+[sala]
+
+# The cipher to use with GnuPG's symmetrical encryption.
+# Run &quot;gpg --version&quot; to list supported ciphers.
+cipher = AES256
+
+# Master key length, in bytes
+key-length = 64
+
+# A shell command for generating password suggestions
+password-generator = pwgen -nc 12 10
+</pre>
+<p>Changing <code class="docutils literal">cipher</code> only affects secrets that are set after the
+configuration setting is changed. Old secrets will not automatically
+be re-encrypted.</p>
+<p>Only <code class="docutils literal">sala init</code> uses the <code class="docutils literal"><span class="pre">key-length</span></code> option. If you want the
+master key to be of a different size, make sure the configuration file
+exists before you run <code class="docutils literal">sala init</code>.</p>
+<p>The <code class="docutils literal"><span class="pre">password-generator</span></code> command is run through the shell to
+generate password suggestions. If the command fails (is not found or
+exits with non-zero exit status), its output is ignored. Othewise, the
+output should consist of one or more words separated with whitespace
+(space, tab, newline, etc.). These words are presented to the user as
+password suggestions by <code class="docutils literal">sala set</code>.</p>
+</div>
+<div class="section" id="under-the-hood">
+<h2>UNDER THE HOOD</h2>
+<p>Sala uses GnuPG's symmetric encryption. All encrypted files are in the
+GnuPG plain text (armor) format.</p>
+<p>When the password store is initialized, a very long, truly random key
+is generated and stored to the file <code class="docutils literal">.salakey</code>. Only this &quot;master
+key&quot; is encrypted with your master passphrase. All the other files in
+the store are encrypted with the master key.</p>
+</div>
+<div class="section" id="files">
+<h2>FILES</h2>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">~/.sala.conf</span></code>, <code class="docutils literal">$XDG_CONFIG_HOME/sala.conf</code>, <code class="docutils literal">sala.conf</code></dt>
+<dd>Configuration files, See <a class="reference internal" href="#configuration">CONFIGURATION</a> above.</dd>
+</dl>
+</div>
+<div class="section" id="author"><h2>AUTHOR</h2><p>Petri Lehtinen &lt;petri&#64;digip.org&gt;</p></div><div class="section" id="copyright"><h2>COPYRIGHT</h2><p>Copyright (C) 2011 Petri Lehtinen. Licensed under the MIT
+license.</p></div>
+</div>
+</body>
+</html>

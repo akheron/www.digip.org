@@ -52,6 +52,9 @@ files = Files(
     ('jansson/', project('jansson')),
     ('jansson/doc/', redirect, {'url': '2.0/'}),
 
+    # Sala
+    ('sala/', project('sala')),
+
     # Stango
     ('stango/', project('stango')),
 

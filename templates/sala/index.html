@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% set title = "Sala &mdash; Simple encrypted plaintext password store" %}
+
+{% block content %}
+<section>
+  <h1>Sala</h1>
+  <p>
+    <em>Sala</em> is a command-line program that lets you store
+    passwords and other bits of sensitive plain-text information to
+    encrypted files on a directory hierarchy. The information is
+    protected by GnuPG's symmetrical encryption.
+  </p>
+  <p>
+    Sala is licensed under
+    the <a href="http://www.opensource.org/licenses/mit-license.php">MIT
+      license</a>.
+  </p>
+</section>
+
+<section>
+  <h2>News</h2>
+  <ul>
+    {% for entry in news %}
+    <li>
+      <a href="{{ entry.url }}">{{ entry.title }}</a>, on {{ entry.date_str }}
+    </li>
+    {% endfor %}
+  </ul>
+  <a href="/blog/tags/sala/">More news...</a>
+</section>
+
+<section>
+  <h2>Releases</h2>
+  <p>
+    The latest release is 1.1, released on 2011-02-02.
+  </p>
+  <p>
+    Download the source from
+    <a href="http://pypi.python.org/pypi/sala/">PyPI</a>, or install
+    with <code>pip</code>:
+  </p>
+  <pre class="plain">$ pip install sala</pre>
+  <p>
+    Requirements:
+  </p>
+  <ul>
+    <li>
+      <a href="http://python.org/">Python</a> 2.5. Python 3.x is not
+      currently supported (but will be soon).
+    </li>
+    <li>
+      <a href="http://www.gnupg.org/">GnuPG</a>
+    </li>
+  </ul>
+  <p>
+    Suggested packages:
+  </p>
+  <ul>
+    <li>
+      <a href="http://sourceforge.net/projects/pwgen/">pwgen</a>: With
+      the default configuration, if <code>pwgen</code> is installed,
+      it's used to suggest good passwords to the user
+    </li>
+  </ul>
+  <p>
+    For documentation, see the manual
+    page <a href="sala.1.html">sala(1)</a>.
+  </p>
+</section>
+
+<section>
+  <h2>Development</h2>
+  <p>
+    The source repository is hosted at GitHub.
+  </p>
+  <ul>
+    <li>
+      <a href="https://github.com/akheron/sala">Fork me!</a>
+    </li>
+    <li>
+      <a href="https://github.com/akheron/sala/issues">Issue tracker</a>
+    </li>
+  </ul>
+  <p>
+    Check out the latest source:
+  </p>
+  <pre class="plain">git clone git://github.com/akheron/sala.git</pre>
+</section>
+{% endblock %}
