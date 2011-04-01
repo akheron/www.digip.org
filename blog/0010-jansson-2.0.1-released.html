@@ -1,0 +1,31 @@
+Title: Jansson 2.0.1 released
+Date: 2011-04-01
+Tags: jansson announcement
+
+<p>
+  Jansson 2.0.1 is out. This release fixes a few bugs, some of them
+  major and some minor.
+</p>
+<p>
+  The most important bug fixes are:
+</p>
+<ul>
+  <li>Fix strict key checking in <code>json_unpack()</code> code. The
+    strict mode (<code>JSON_STRICT</code> flag and the <code>!</code>
+    format character), checking that every object key is unpacked,
+    didn't really work at all.</li>
+  <li>Fix the return value of <code>json_object_size()</code>. On
+    error, it now returns 0, as documented. This may affect users if
+    someone is relying on the buggy old return value
+    of <code>(size_t)-1</code>.</li>
+  <li>Fix a few segfaulters when custom memory management is
+    used.</li>
+  <li>Make the <code>JANSSON_VERSION_HEX</code> constant usable (by
+    fixing the number of closing parentheses).</li>
+</ul>
+<p>
+  For full details,
+  see <a href="/jansson/doc/2.0/changes.html#version-2-0-1">the
+  changelog</a>. Special thanks to Eric Roy, Akos Polster and others
+  who found bugs and provided patches!
+</p>
