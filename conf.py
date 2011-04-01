@@ -25,7 +25,7 @@ def project(name):
     tag = blog.tags.get(name)
     if tag:
         ctx = {
-            'news': reversed(tag.entries[:news_entries]),
+            'news': list(reversed(tag.entries))[:news_entries],
         }
     else:
         ctx = {}
