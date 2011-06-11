@@ -280,10 +280,10 @@ class Blog(object):
             ('archive/', self.archive_index),
         )
 
-        for page in range(2, self.total_pages):
-            first_entry = (page - 1) * self.entries_per_page
-            result.append(('page/%s' % page, self.blog_index,
-                           {'page': page, 'first_entry': first_entry}))
+        # for page in range(2, self.total_pages):
+        #     first_entry = (page - 1) * self.entries_per_page
+        #     result.append(('page/%s' % page, self.blog_index,
+        #                    {'page': page, 'first_entry': first_entry}))
 
         for entry in self.entries:
             year = entry.date.year
