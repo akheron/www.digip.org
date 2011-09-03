@@ -50,7 +50,7 @@ files = Files(
 
     # Jansson
     ('jansson/', project('jansson')),
-    ('jansson/doc/', redirect, {'url': '2.1/'}),
+    ('jansson/doc/', redirect, {'url': '2.2/'}),
 
     # Sala
     ('sala/', project('sala')),
@@ -63,7 +63,7 @@ files = Files(
 )
 
 # Jansson documentation
-for version in ['1.0', '1.1', '1.2', '1.3', '2.0', '2.1']:
+for version in ['1.0', '1.1', '1.2', '1.3', '2.0', '2.1', '2.2']:
     files += files_from_tar(
         'jansson/doc/%s/' % version,
         'jansson/doc-%s.tar.bz2' % version,
