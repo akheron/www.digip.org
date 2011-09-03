@@ -97,12 +97,18 @@ class BlogEntry(object):
         self.content = content
         self.url = None
 
+        self._rendered = False
+
     def render(self, blog):
+        if self._rendered:
+            return
+
         content = self.content
         for processor in ENTRY_PROCESSORS:
             content = processor(blog, content)
 
         self.content = content
+        self._rendered = True
 
     def __hash__(self):
         return hash(self.slug)
@@ -265,9 +271,6 @@ class Blog(object):
         for tag in self.tags.values():
             tag.url = '%stags/%s/' % (self.abs_prefix, tag.name)
 
-        for entry in self.entries:
-            entry.render(self)
-
     @property
     def files(self):
         result = Files(
@@ -320,6 +323,16 @@ class Blog(object):
 
     def _render(self, context, template, **kwargs):
         ctx = self._template_context(**kwargs)
+
+        # Render entries (no-op if already rendered). This is done as
+        # late as possible to speed up startup of Stango's builtin
+        # server.
+        if 'entry' in ctx:
+            ctx['entry'].render(self)
+        if 'entries' in ctx:
+            for entry in ctx['entries']:
+                entry.render(self)
+
         return context.render_template(template, **ctx)
 
     def blog_index(self, context):
@@ -335,7 +348,7 @@ class Blog(object):
         return self._render(context, 'blog/tag.html', tag=tag)
 
     def view_archive(self, context, year, month):
-        return self._render(context,'blog/archive.html',
+        return self._render(context, 'blog/archive.html',
                             year=year, month=month,
                             entries=self.archive[year][month])
 
