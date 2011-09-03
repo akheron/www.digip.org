@@ -1,0 +1,39 @@
+Title: Jansson 2.2 released
+Date: 2011-09-03
+Tags: jansson announcement
+
+<p>
+  <a href="/jansson/">Jansson</a> 2.2 has been released. This release
+  adds one new encoding
+  function, <a href="/jansson/doc/2.2/apiref.html#json_dump_callback"><code>json_dump_callback()</code></a>,
+  and fixes some minor bugs and documentation glitches. The full
+  release notes are
+  available <a href="/jansson/doc/2.2/changes.html#version-2-2">here</a>.
+</p>
+<p>
+  The new encoding function makes it possible to send encoder's output
+  to a callback function. Here's an example:
+</p>
+<pre class="highlight c">
+#include &lt;jansson.h&gt;
+
+/* Print the buffer's contents. */
+int callback(const char *buffer, size_t size, void *x) {
+    printf("%.*s\n", size, buffer);
+    return 0;
+}
+
+int main() {
+    json_t *root = json_pack("{s:s, s:i}", "greeting", "Hello, World!", "number", 42);
+    json_dump_callback(root, callback, NULL, 0);
+    return 0;
+}
+</pre>
+<p>
+  The third parameter to <code>json_dump_callback()</code>
+  (<code>NULL</code> in this case) is passed through to the callback
+  as <code>x</code>.
+</p>
+<p>
+  Thanks to Jonathan Landis for the initial patch!
+</p>
