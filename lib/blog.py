@@ -8,6 +8,12 @@ from stango.files import Files
 
 __all__ = ['Blog']
 
+MONTHS = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+]
+
+
 url_ok = re.compile(r'[a-zA-Z0-9.~_-]')
 def slugify(text):
     from unicodedata import normalize
@@ -342,7 +348,8 @@ class Blog(object):
                             total_pages=self.total_pages)
 
     def archive_index(self, context):
-        return self._render(context, 'blog/archive_index.html')
+        return self._render(context, 'blog/archive_index.html',
+                            month_names=MONTHS)
 
     def view_entry(self, context, entry):
         return self._render(context, 'blog/entry.html', entry=entry)
@@ -353,7 +360,8 @@ class Blog(object):
     def view_archive(self, context, year, month):
         return self._render(context, 'blog/archive.html',
                             year=year, month=month,
-                            entries=self.archive[year][month])
+                            entries=self.archive[year][month],
+                            month_names=MONTHS)
 
     def atom(self, context, feed_id, entries, feed_name=None):
         return context.render_template(

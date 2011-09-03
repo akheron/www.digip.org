@@ -7,9 +7,18 @@
 
   <ul>
     {% for year in archive %}
-    {% for month in archive[year] %}
-    <li><a href="../{{ year }}/{{ "%02d"|format(month) }}/">{{ month }}/{{ year }}</a></li>
-    {% endfor %}
+    <li>
+      {{ year }}
+      <ul>
+        {% for month in archive[year] %}
+        <li>
+          {% set count = archive[year][month]|length %}
+          <a href="../{{ year }}/{{ "%02d"|format(month) }}/">{{ month_names[month - 1] }}</a>
+          {% if count == 1 %}(1 entry){% else %}({{ count }} entries){% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
     {% endfor %}
   </ul>
 </section>

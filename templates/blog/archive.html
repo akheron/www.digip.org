@@ -1,9 +1,10 @@
 {% extends "blog/base.html" %}
-{% set title = "Archive for %s/%s &mdash; digip.org blog" % (month, year) %}
+{% set month_name = month_names[month - 1] %}
+{% set title = "Archive for %s %s &mdash; digip.org blog" % (month_name, year) %}
 
 {% block blogcontent %}
 <section>
-  <h2>Archive for {{ month }}/{{ year }}</h2>
+  <h2>Archive for {{ month_name }} {{ year }}</h2>
 
   <ul>
     {% for entry in entries %}
