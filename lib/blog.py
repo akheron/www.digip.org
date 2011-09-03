@@ -1,4 +1,5 @@
 from datetime import datetime
+from math import ceil
 import bisect
 import os
 import re
@@ -237,9 +238,7 @@ class Blog(object):
             reverse=True
         )
 
-        self.total_pages = len(self.entries) // self.entries_per_page
-        if len(self.entries) % self.entries_per_page != 0:
-            self.total_pages += 1
+        self.total_pages = ceil(len(self.entries) / self.entries_per_page)
 
         for entry in self.entries:
             for tag_name in entry.tags:
@@ -274,7 +273,7 @@ class Blog(object):
     @property
     def files(self):
         result = Files(
-            ('', self.blog_index),
+            ('', self.blog_index, {'page': 1, 'first_entry': 0}),
             (
                 'feed.atom',
                 self.atom,
@@ -283,10 +282,10 @@ class Blog(object):
             ('archive/', self.archive_index),
         )
 
-        # for page in range(2, self.total_pages):
-        #     first_entry = (page - 1) * self.entries_per_page
-        #     result.append(('page/%s' % page, self.blog_index,
-        #                    {'page': page, 'first_entry': first_entry}))
+        for page in range(2, self.total_pages + 1):
+            first_entry = (page - 1) * self.entries_per_page
+            result.append(('page/%s/index.html' % page, self.blog_index,
+                           {'page': page, 'first_entry': first_entry}))
 
         for entry in self.entries:
             year = entry.date.year
@@ -335,8 +334,12 @@ class Blog(object):
 
         return context.render_template(template, **ctx)
 
-    def blog_index(self, context):
-        return self._render(context, 'blog/index.html', entries=self.entries)
+    def blog_index(self, context, page, first_entry):
+        entries = self.entries[first_entry:first_entry + self.entries_per_page]
+        return self._render(context, 'blog/index.html',
+                            entries=entries,
+                            page=page,
+                            total_pages=self.total_pages)
 
     def archive_index(self, context):
         return self._render(context, 'blog/archive_index.html')

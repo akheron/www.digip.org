@@ -54,3 +54,12 @@ article .info {
     white-space: nowrap;
     padding-right: 10pt;
 }
+
+.pagination {
+    text-align: center;
+}
+
+.pagination .wide {
+    display: inline-block;
+    padding: 0 20px;
+}
