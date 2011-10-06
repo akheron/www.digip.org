@@ -1,0 +1,18 @@
+Title: Jansson 2.2.1 released
+Date: 2011-10-06
+Tags: jansson announcement
+
+<p>
+  <a href="/jansson/">Jansson</a> 2.2.1 has been released. This fixes
+  a major bug, and fixes little documentation and style issues.
+</p>
+<p>
+  The bug has to do with locales: Jansson's encoder and decoder both
+  failed hard on real numbers when the locale's decimal separator was
+  not the standard one. Furthermore, the decoder issued invalid error
+  messages in some cases under non-UTF-8 locales.
+</p>
+<p>
+  The full release notes are
+  available <a href="/jansson/doc/2.2/changes.html#version-2-2-1">here</a>.
+</p>
