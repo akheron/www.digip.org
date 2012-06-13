@@ -1,8 +1,8 @@
 <!-- utf-8 --><!DOCTYPE html>
-<html lang="en"><!-- en -->
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.9: http://docutils.sourceforge.net/" />
 <title>SALA(1)</title>
 <link rel="stylesheet" href="manpage.css" type="text/css">
 </head>
@@ -43,6 +43,12 @@ by GnuPG's symmetrical encryption.</p>
 <tr><td class="option-group">
 <kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
 <td>Show help</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-C <var>DIR</var></span></kbd></td>
+<td>Use a password store in DIR instead of current directory</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-r</span>, <span class="option">--raw</span></kbd></td>
+<td>Use a simple output format for machine processing</td></tr>
 </tbody>
 </table>
 </div>
@@ -114,7 +120,7 @@ tries to read its configuration files in this order:</p>
 <li><code class="docutils literal"><span class="pre">~/.sala.conf</span></code></li>
 <li><code class="docutils literal"><span class="pre">~/.config/sala.conf</span></code> (more specifically
 <code class="docutils literal">$XDG_CONFIG_HOME/sala.conf</code>)</li>
-<li><code class="docutils literal">sala.conf</code> in the top directory of the password store</li>
+<li><code class="docutils literal">.sala/config</code> in the top directory of the password store</li>
 </ul>
 <p>None of the files are required. If a configuration setting is
 specified in more than one file, the latter file (in the list above)
@@ -143,28 +149,55 @@ exists before you run <code class="docutils literal">sala init</code>.</p>
 <p>The <code class="docutils literal"><span class="pre">password-generator</span></code> command is run through the shell to
 generate password suggestions. If the command fails (is not found or
 exits with non-zero exit status), its output is ignored. Othewise, the
-output should consist of one or more words separated with whitespace
+output should consist of one or more words separated by whitespace
 (space, tab, newline, etc.). These words are presented to the user as
 password suggestions by <code class="docutils literal">sala set</code>.</p>
+</div>
+<div class="section" id="bash-completion">
+<h2>BASH COMPLETION</h2>
+<p>A bash completion script is available in
+<code class="docutils literal"><span class="pre">contrib/sala-completion.bash</span></code>. When enabled, it provides tab
+completion for files and directories in <code class="docutils literal">$SALADIR</code>, or in the
+current directory if <code class="docutils literal">SALADIR</code> has not been defined. Setting
+<code class="docutils literal">SALADIR</code> allows you to use sala with tab completion regardless of
+the current working directory of your shell.</p>
+<p>To enable bash completion, load the completion script:</p>
+<pre class="literal-block">
+$ export SALADIR=/path/to/passwords
+$ . /path/to/sala/contrib/bash-completion.sala
+</pre>
+<p>If you want to later disable the completion in the same shell session,
+invoke:</p>
+<pre class="literal-block">
+$ complete -o default sala
+</pre>
 </div>
 <div class="section" id="under-the-hood">
 <h2>UNDER THE HOOD</h2>
 <p>Sala uses GnuPG's symmetric encryption. All encrypted files are in the
 GnuPG plain text (armor) format.</p>
 <p>When the password store is initialized, a very long, truly random key
-is generated and stored to the file <code class="docutils literal">.salakey</code>. Only this &quot;master
+is generated and stored to the file <code class="docutils literal">.sala/key</code>. Only this &quot;master
 key&quot; is encrypted with your master passphrase. All the other files in
 the store are encrypted with the master key.</p>
+</div>
+<div class="section" id="environment">
+<h2>ENVIRONMENT</h2>
+<dl class="docutils">
+<dt><code class="docutils literal">SALADIR</code></dt>
+<dd>If set, use a password store in this directory instead of the
+current directory.</dd>
+</dl>
 </div>
 <div class="section" id="files">
 <h2>FILES</h2>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">~/.sala.conf</span></code>, <code class="docutils literal">$XDG_CONFIG_HOME/sala.conf</code>, <code class="docutils literal">sala.conf</code></dt>
+<dt><code class="docutils literal"><span class="pre">~/.sala.conf</span></code>, <code class="docutils literal">$XDG_CONFIG_HOME/sala.conf</code>, <code class="docutils literal">.sala/config</code></dt>
 <dd>Configuration files, See <a class="reference internal" href="#configuration">CONFIGURATION</a> above.</dd>
 </dl>
 </div>
-<div class="section" id="author"><h2>AUTHOR</h2><p>Petri Lehtinen &lt;petri&#64;digip.org&gt;</p></div><div class="section" id="copyright"><h2>COPYRIGHT</h2><p>Copyright (C) 2011 Petri Lehtinen. Licensed under the MIT
-license.</p></div>
+<div class="section" id="author"><h2>AUTHOR</h2><p>Petri Lehtinen &lt;petri&#64;digip.org&gt;</p></div><div class="section" id="copyright"><h2>COPYRIGHT</h2><p>Copyright (C) 2011, 2012 Petri Lehtinen. Licensed under
+the MIT license.</p></div>
 </div>
 </body>
 </html>
