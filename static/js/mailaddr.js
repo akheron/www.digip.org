@@ -2,7 +2,8 @@ $(document).ready(function() {
     var user = 'petri';
     var host = 'digip.org';
     $('.ma').each(function() {
-        var text = $(this).text();
+        var text = $(this).text(),
+            addr;
         if($(this).hasClass('s'))
             text = addr = user + '@' + host;
         else
