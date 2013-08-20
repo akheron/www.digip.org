@@ -6,13 +6,13 @@ Tags: jansson announcement
   <a href="/jansson/">Jansson</a> 2.3 has been released. This release
   adds new features and fixes some minor bugs and documentation
   issues. The full release notes are
-  available <a href="/jansson/doc/2.3/changes.html#version-2-3">here</a>.
+  available <a href="https://jansson.readthedocs.org/en/2.3/changes.html#version-2-3">here</a>.
 </p>
 
 <h3>New features</h3>
 <p>
   New syntax for optional object keys was added
-  to <a href="/jansson/doc/2.3/apiref.html#parsing-and-validating-values">unpacking
+  to <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#parsing-and-validating-values">unpacking
   functions</a>. For example, this call:
 </p>
 <pre class="highlight c">/* obj is a JSON object */
@@ -25,15 +25,15 @@ json_unpack(obj, "{s?i}", "foo", &myint)
 
 <p>
   New
-  functions, <a href="/jansson/doc/2.3/apiref.html#json_object_update_existing"><code>json_object_update_existing()</code></a>
-  and <a href="/jansson/doc/2.3/apiref.html#json_object_update_missing"><code>json_object_update_missing()</code></a>
+  functions, <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_object_update_existing"><code>json_object_update_existing()</code></a>
+  and <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_object_update_missing"><code>json_object_update_missing()</code></a>
   were added. They work
-  like <a href="/jansson/doc/2.3/apiref.html#json_object_update"><code>json_object_update()</code></a>,
+  like <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_object_update"><code>json_object_update()</code></a>,
   but only update existing object keys or add new keys, respectively.
 </p>
 
 <p>
-  <a href="/jansson/doc/2.3/apiref.html#json_object_foreach"><code>json_object_foreach()</code></a>
+  <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_object_foreach"><code>json_object_foreach()</code></a>
   macro was added for convenient iteration over objects. For example,
   the following code prints all keys in an object:
 </p>
@@ -57,11 +57,11 @@ json_object_foreach(obj, key, value) {
   it possible to use the <code>JSON_DISABLE_EOF_CHECK</code> to decode
   multiple JSON texts from a single input also when decoding from
   string
-  with <a href="/jansson/doc/2.3/apiref.html#json_loads"><code>json_loads()</code></a>
-  or <a href="/jansson/doc/2.3/apiref.html#json_loadb"><code>json_loadb()</code></a>.
+  with <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_loads"><code>json_loads()</code></a>
+  or <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_loadb"><code>json_loadb()</code></a>.
   Before this change, it was only possible when decoding from a file
   stream
-  using <a href="/jansson/doc/2.3/apiref.html#json_loadf"><code>json_loadf()</code></a>,
+  using <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_loadf"><code>json_loadf()</code></a>,
   because the file position could be used to determine where reading
   stopped.
 </p>
@@ -72,7 +72,7 @@ json_object_foreach(obj, key, value) {
   violates strict <a href="http://www.ietf.org/rfc/rfc4627">RFC
   4627</a> conformance, so it should be used with caution. There are
   also some caveats when dealing with decoding errors. See
-  the <a href="/jansson/doc/2.3/apiref.html#decoding">documentation</a>
+  the <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#decoding">documentation</a>
   for details. Patch by Andrea Marchesini.
 </p>
 
@@ -80,7 +80,7 @@ json_object_foreach(obj, key, value) {
 <p>
   Each JSON object has an internal serial number that is used to
   record the addition order of keys. It's now reset
-  when <a href="/jansson/doc/2.3/apiref.html#json_object_clear"><code>json_object_clear()</code></a>
+  when <a href="https://jansson.readthedocs.org/en/2.3/apiref.html#json_object_clear"><code>json_object_clear()</code></a>
   is called to avoid it growing out of bounds for long-living objects.
   Handling of large serial numbers also now works better when
   encoding.

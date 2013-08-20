@@ -6,13 +6,13 @@ Tags: jansson announcement
   <a href="/jansson/">Jansson</a> 2.1 was released yesterday. This
   release adds a few new features and fixes some minor bugs. The full
   release notes are
-  available <a href="/jansson/doc/2.1/changes.html#version-2-1">here</a>.
+  available <a href="https://jansson.readthedocs.org/en/2.1/changes.html#version-2-1">here</a>.
 </p>
 
 <h3>New features</h3>
 <p>
   A new decoding
-  function, <a href="/jansson/doc/2.1/apiref.html#json_loadb"><code>json_loadb()</code></a>,
+  function, <a href="https://jansson.readthedocs.org/en/2.1/apiref.html#json_loadb"><code>json_loadb()</code></a>,
   was added for decoding buffers with length. The most important thing
   is that the input buffer need not be null terminated. In the future,
   it may also help to implement the support for zero bytes inside
@@ -20,7 +20,7 @@ Tags: jansson announcement
 </p>
 <p>
   <code>json_loadb()</code> is
-  like <a href="/jansson/doc/2.1/apiref.html#json_loads"><code>json_loads()</code></a>,
+  like <a href="https://jansson.readthedocs.org/en/2.1/apiref.html#json_loads"><code>json_loads()</code></a>,
   except that it takes an additional <em>length</em> argument:
 </p>
 <pre class="highlight c">
@@ -50,7 +50,7 @@ value = json_loadb(buffer, length, 0, &error);
 <ul>
   <li>
     Fix a memory leak when memory allocation fails in
-    <a href="/jansson/doc/2.1/apiref.rst#json_object_set">json_object_set()</a>
+    <a href="https://jansson.readthedocs.org/en/2.1/apiref.rst#json_object_set">json_object_set()</a>
     and friends.
   </li>
   <li>

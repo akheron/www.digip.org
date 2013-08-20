@@ -7,12 +7,12 @@ Tags: jansson announcement
   adds new features and fixes a few bugs and documentation issues. It
   also adds support for building the library on Microsoft Visual
   Studio. The full release notes are
-  available <a href="/jansson/doc/2.4/changes.html#version-2-4">here</a>.
+  available <a href="https://jansson.readthedocs.org/en/2.4/changes.html#version-2-4">here</a>.
 </p>
 
 <h3>New features</h3>
 <p>
-  A new macro, <a href="/jansson/doc/2.4/apiref.html#json_boolean">json_boolean()</a>,
+  A new macro, <a href="https://jansson.readthedocs.org/en/2.4/apiref.html#json_boolean">json_boolean()</a>,
   was added. It returns either the JSON true or JSON false value based
   on its argument. It's useful in situations like this:
 </p>
@@ -23,7 +23,7 @@ value = json_boolean(yes);  /* false if yes == 0, true otherwise */
 <p>
   It's now possible to decode JSON with a callback providing the
   source JSON text. The
-  new <a href="/jansson/doc/2.4/apiref.html#json_load_callback">json_load_callback()</a>
+  new <a href="https://jansson.readthedocs.org/en/2.4/apiref.html#json_load_callback">json_load_callback()</a>
   function calls a callback repeatedly to read the source JSON. This
   is useful when the JSON data is received from a custom stream, for
   example.
@@ -42,8 +42,8 @@ value = json_boolean(yes);  /* false if yes == 0, true otherwise */
 <p>
   Until now, it has been possible to make Jansson produce invalid JSON
   by creating a real value with an Inf or NaN special
-  value. <a href="/jansson/doc/2.4/apiref.html#json_real">json_real()</a>
-  and <a href="/jansson/doc/2.4/apiref.html#json_real_set">json_real_set()</a>
+  value. <a href="https://jansson.readthedocs.org/en/2.4/apiref.html#json_real">json_real()</a>
+  and <a href="https://jansson.readthedocs.org/en/2.4/apiref.html#json_real_set">json_real_set()</a>
   now check for these special values and refuse to accept them,
   returning -1 to signal an error. (As a matter of
   fact, <code>json_real_set()</code> returned 0 even on other errors,
