@@ -1,1 +1,7 @@
 AddDefaultCharset off
+
+RewriteEngine On
+RewriteRule  ^jansson/doc/dev$       https://jansson.readthedocs.org/en/latest/ [R]
+RewriteRule  ^jansson/doc/dev/(.*)$  https://jansson.readthedocs.org/en/latest/$1 [R]
+RewriteRule  ^jansson/doc/([^/]+)$   https://jansson.readthedocs.org/en/$1/ [R]
+RewriteRule  ^jansson/doc/(.*)$      https://jansson.readthedocs.org/en/$1 [R]

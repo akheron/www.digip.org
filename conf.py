@@ -62,17 +62,9 @@ files = Files(
     ('autotoolized-lua/', project('autotoolized-lua')),
 )
 
-# Jansson documentation
-for version in ['1.0', '1.1', '1.2', '1.3', '2.0', '2.1', '2.2', '2.3', '2.4']:
-    files += files_from_tar(
-        'jansson/doc/%s/' % version,
-        'jansson/doc-%s.tar.bz2' % version,
-        strip=1,
-    )
-
 # Post-view hook: Add Google Analytics script into all .html files.
 # This cannot be done in the base template, as all HTML files are
-# generated from templates (e.g. Jansson's documentation files).
+# not generated from templates.
 #
 # Asynchronous Google Analytics snippet from
 # http://mathiasbynens.be/notes/async-analytics-snippet
