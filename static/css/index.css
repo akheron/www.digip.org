@@ -1,9 +1,16 @@
+#container {
+    max-width: 480px;
+}
+
+h1 {
+    text-align: center;
+}
+
 #areas {
     margin-bottom: 40px;
 }
 
 #areas > div {
-    max-width: 625px;
     margin: 13px 0;
     padding: 13px;
 
