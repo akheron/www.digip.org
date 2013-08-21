@@ -1,10 +1,8 @@
 #bloghead, #blogmenu {
     height: 30px;
-    margin-bottom: 30px;
 }
 
 #bloghead {
-    float: left;
     font-size: 20px;
     font-weight: bold;
 }
@@ -15,10 +13,6 @@
     border: 0;
 }
 
-#blogmenu {
-    float: right;
-}
-
 #blogmenu ul li {
     display: inline-block;
     padding-left: 25px;
@@ -26,6 +20,35 @@
 
 #blogmenu a {
     text-decoration: none;
+}
+
+@media (min-width: 600px) {
+    #bloghead, #blogmenu {
+        margin-bottom: 30px;
+    }
+
+    #bloghead {
+        float: left;
+    }
+
+    #blogmenu {
+        float: right;
+    }
+
+}
+
+@media (max-width: 599px) {
+    #bloghead, #blogmenu {
+        margin-bottom: 10px;
+    }
+
+    #blogmenu ul {
+        margin-left: 0;
+    }
+
+    #blogmenu ul li:first-child {
+        padding-left: 0;
+    }
 }
 
 #container > section {
@@ -61,5 +84,27 @@ article .info {
 
 .pagination .wide {
     display: inline-block;
-    padding: 0 20px;
+}
+
+@media (min-width: 600px) {
+    .pagination .wide {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 599px) {
+    .pagination .wide {
+        padding: 0 3px;
+    }
+}
+
+@media (max-width: 380px) {
+    .pagination .wide {
+        display: none;
+    }
+
+    strong {
+        display: inline-block;
+        margin: 0 10px;
+    }
 }
