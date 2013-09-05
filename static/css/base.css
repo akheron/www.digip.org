@@ -1,5 +1,7 @@
+@import url(http://fonts.googleapis.com/css?family=Lora:400,700);
+
 body {
-    font-family: 'Georgia', serif;
+    font-family: 'Lora', 'Georgia', serif;
     font-size: 17px;
     line-height: 150%;
     color: #333;
