@@ -1,0 +1,129 @@
+Title: Jansson 2.5 released
+Date: 2013-09-23
+Tags: jansson announcement
+
+<p>
+  <a href="/jansson/">Jansson</a> 2.5 was released a few days ago. It
+  was almost a year since last release, and a lot has happened during
+  this time. In this post, I'll sum up the most important new
+  features. For a more comprehensive list of changes, see
+  the <a href="http://jansson.readthedocs.org/en/2.5/changes.html#version-2-5">release
+  notes</a>.
+</p>
+
+<h3>New format specifiers</h3>
+<p>
+  <a href="http://jansson.readthedocs.org/en/2.5/apiref.html#json_pack">json_pack()</a>
+  and friends learned new format
+  specifiers: <code>s#</code>, <code>+#</code> and <code>+#</code>.
+  All of them deal with packing strings, and they work with both
+  object keys and string values.
+</p>
+<p>
+ The <code>s#</code> format lets you define a length of a substring to
+  be packed. Example:
+</p>
+<pre class="highlight c">
+const char *data = "abcdef";
+json_pack("{s#: s#", data, 3, data + 3, 3);
+/* ==> {"abd": "def"} */
+</pre>
+<p>
+  The <code>+</code> format makes it possible to concatenate strings
+  on the fly easily. It only works after a <code>s</code> or
+  a <code>+</code>, and has the effect of joining the given string to
+  the previous string:
+</p>
+<pre class="highlight c">
+json_pack("{s+: s++}", "abc", "def", "foo", "bar", "baz");
+/* ==> {"abcdef": "foobarbaz"} */
+</pre>
+<p>
+  And <code>+#</code> is of course for concatenating a substring.
+  Here's a more complex example that shows that the new format
+  specifiers can be mixed in any way you can think of:
+</p>
+<pre class="highlight c">
+const char *data = "abcdef";
+json_pack("{s+#+: s#+#", "fed", data, 3, data + 3,
+                         data, 1, data, 2);
+/* ==> {"fedabcdef": "aab"} */
+</pre>
+<p>
+  The new format specifiers are a response for two types of user needs
+  that are discussed regularly
+  on <a href="https://github.com/akheron/jansson">GitHub</a>
+  and <a href="http://groups.google.com/group/jansson-users">mailing
+  list</a>: Creating string values from non-NUL terminated buffers by
+  specifying a length, and making it easier to work with strings
+  directly in Jansson without having to do the C level plumbing
+  yourself. <code>s#</code> solves the first need, and <code>+</code>
+  and <code>+#</code> help with a common use case of concatenating two
+  strings, although they're definitely not a magic bullet for every
+  string manipulation need.
+</p>
+<p>
+  There's also a good reason why these operations were implemented as
+  an extension to <code>json_pack()</code> and not API functions of
+  their own. Creating a new API function for every combination of
+  possible string operations, encoding control, allocation schemes,
+  etc. would need a vast amount of string functions. Extending all of
+  this to object keys would make the situation three times worse.
+</p>
+
+<h3>CMake build system</h3>
+<p>
+  Support for <a href="http://www.cmake.org">CMake</a> was perhaps the
+  single most requested feature for a long time. While GNU Autotools,
+  Jansson's default build system, generally works well on Unix-like
+  platforms, many people find CMake generally better and easier to
+  use. It also has better support for non-Unix systems, namely
+  Windows.
+</p>
+<p>
+  GNU <a href="http://www.gnu.org/software/autoconf/">Autoconf</a>,
+  <a href="http://www.gnu.org/software/automake/">Automake</a>
+  and <a href="http://www.gnu.org/software/libtool/">Libtool</a> still
+  stay the default build system for Jansson. However, the CMake build
+  system is complete in a sense that it does everything that the
+  autotools build system does (generates documentation, runs tests,
+  etc.).
+</p>
+<p>
+  Many thanks to <a href="https://github.com/paulharris">Paul
+  Harris</a> for initially developing the CMake support, and
+  to <a href="https://github.com/JoakimSoderberg">Joakim Söderberg</a>
+  for finishing the work and correcting many bugs and feature requests
+  afterwards.
+</p>
+
+<h3>Smaller features</h3>
+<p>
+  A new decoding flag <code>JSON_DECODE_INT_AS_REAL</code> was added.
+  It makes the decoder return all numbers as reals, regardless of
+  whether their text representation
+  contains <code>.</code>, <code>e</code> or <code>E</code>.
+</p>
+<p>
+  <a href="https://jansson.readthedocs.org/en/2.5/apiref.html#json_array_foreach"><code>json_array_foreach()</code></a>
+  macro was added, paralleling
+  <a href="https://jansson.readthedocs.org/en/2.5/apiref.html#json_object_foreach"><code>json_object_foreach()</code></a>.
+  Even though a loop over an array is easier to create, this macro
+  makes it even simpler and better looking to iterate over an array:
+</p>
+<pre class="highlight c">
+json_t *array;  /* holds an array */
+size_t index;
+json_t *value;
+json_array_foreach(array, index, value) {
+    /* index is the current position of iteration,
+       value is the JSON value at that position.
+    */
+}
+</pre>
+<p>
+  The <code>struct json_t</code> can now be forward declared. This
+  makes it possible to avoid including <code>&lt;jansson.h&gt;</code>
+  in header files that declare global <code>json_t *</code> variables
+  or funtions whose signature uses <code>json_t *</code>.
+</p>
