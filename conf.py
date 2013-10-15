@@ -64,6 +64,9 @@ files = Files(
 
     # Autotoolized Lua
     ('autotoolized-lua/', project('autotoolized-lua')),
+
+    # cube.js
+    ('cubejs/demo/index.html', render_template('cubejs/demo/index.html')),
 )
 
 # Post-view hook: Add Google Analytics script into all .html files.
