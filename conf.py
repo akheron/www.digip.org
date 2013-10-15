@@ -1,4 +1,4 @@
-from stango.files import *
+from stango.files import Files, files_from_dir
 
 import os
 import sys
@@ -17,9 +17,11 @@ blog = Blog(
 
 news_entries = 5
 
+
 # Views
 def render_template(name, ctx={}):
     return lambda context: context.render_template(name, **ctx)
+
 
 def project(name):
     tag = blog.tags.get(name)
@@ -32,8 +34,10 @@ def project(name):
 
     return render_template('%s/index.html' % name, ctx)
 
+
 def redirect(context, url):
     return context.render_template('redirect.html', url=url)
+
 
 files = Files(
     # Index
@@ -78,6 +82,7 @@ analytics_script = '''\
   })(document, 'script');
 </script>
 '''.encode('utf-8')
+
 
 def post_render_hook(context, data):
     # Don't add the analytics script when using the Stango test server
