@@ -5,9 +5,11 @@ import sys
 
 sys.path.insert(0, 'lib')
 from lib.blog import Blog
+from lib.pygments_extension import PygmentsExtension
 
 index_file = 'index.html'
 autoreload = ['blog/', 'static/']
+jinja_extensions = [PygmentsExtension]
 
 blog = Blog(
     'blog/', 'blog',
@@ -69,7 +71,7 @@ files = Files(
     ('cubejs/demo/index.html', render_template('cubejs/demo/index.html')),
 )
 
-# Post-view hook: Add Google Analytics script into all .html files.
+# Post-render hook: Add Google Analytics script into all .html files.
 # This cannot be done in the base template, as all HTML files are
 # not generated from templates.
 #
