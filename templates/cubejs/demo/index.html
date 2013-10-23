@@ -9,15 +9,19 @@
 {% endblock %}
 
 {% block content %}
-<h1>cube.js demo</h1>
+<h1>cube.js random-state scrambler demo</h1>
 <p>
   This is a simple random state scrambler created with cube.js. After
   the initialization is complete, click on the "generate random
   scramble" button to generate a random-state scramble.
 </p>
 <p>
-  The graphics are generated using Conrad
+  Graphics are generated using Conrad
   Rider's <a href="http://cube.crider.co.uk/visualcube.php">VisualCube</a>.
+</p>
+<p>
+  The demo scrambler and its code are presented below.
+  Click <a href="demo.html">here</a> for a standalone page.
 </p>
 
 <h2>The scrambler</h2>
@@ -29,83 +33,17 @@
 
 <h2>The code</h2>
 <p>
-  The demo, as cube.js, is implemented
-  in <a href="http://coffeescript.org">CoffeeScript</a>, a little
-  language that compiles to JavaScript. It
-  uses <a href="http://jquery.com">jQuery</a> for DOM manipulation.
-</p>
-<p>
   demo.html:
 </p>
 {% code 'html' %}
-<!DOCTYPE html>
-
-<head>
-  <style>
-    #randomstate { visibility: hidden; }
-  </style>
-</head>
-
-<body>
-  <p id="status"></p>
-  <p id="randomstate">
-    <button>Generate random scramble</button><br>
-    <span class="result"></span>
-  </p>
-
-  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="/cubejs/demo/cube.js"></script>
-  <script src="/cubejs/demo/async.js"></script>
-  <script src="/cubejs/demo/demo.js"></script>
-</body>
+{% include 'cubejs/demo/demo.html' %}
 {% endcode %}
 
 <p>
-  demo.coffee:
+  demo.js:
 </p>
-{% code 'coffeescript' %}
-$ ->
-  $('#status').text('Initializing')
-
-  progress = ->
-    # Add a dot each second
-    $('#status').text((index, text) -> "#{text}.");
-
-  initialized = ->
-    # Stop adding dots
-    clearInterval(progressHandle)
-
-    # Measure the duration of initialization
-    end = new Date
-    duration = (end - start) / 1000
-    $('#status').text("Initialization done in #{duration} seconds.")
-
-    # Show the scrambler
-    $('#randomstate').css('visibility', 'visible')
-
-  $('#randomstate button').on('click', ->
-    # Hide the initialization duration on first scramble
-    $('#status').hide()
-
-    # Generate a scramble
-    Cube.asyncScramble((alg) ->
-      # Strip spaces
-      stripped = alg.replace(/\s+/g, '')
-
-      # Show the algorithm and a visualization
-      url = "http://cube.crider.co.uk/visualcube.png?size=150&alg=#{stripped}"
-      $('#randomstate .result').html("#{alg}<br><img src=\"#{url}\">")
-    )
-  )
-
-  # Setup progress callback
-  progressHandle = setInterval(progress, 1000)
-
-  # Start measuring time
-  start = new Date
-
-  # Start initializing
-  Cube.asyncInit('/cubejs/demo/worker.js', initialized)
+{% code 'javascript' %}
+{% include 'cubejs/demo/demo.js' %}
 {% endcode %}
 {% endblock %}
 
