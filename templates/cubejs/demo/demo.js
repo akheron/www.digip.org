@@ -27,7 +27,7 @@
         // Generate a scramble
         Cube.asyncScramble(function(alg) {
             var s = alg.replace(/\s+/g, ''),  // remove spaces
-            url = "http://cube.crider.co.uk/visualcube.png?size=150&alg=" + s;
+                url = "http://cube.crider.co.uk/visualcube.png?size=150&alg=" + s;
             $('#randomstate .result').html(alg + "<br><img src=\"" + url + "\">");
         });
     };
