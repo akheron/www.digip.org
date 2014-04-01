@@ -1,0 +1,57 @@
+Title: Jansson 2.6 released
+Date: 2014-04-01
+Tags: jansson announcement
+
+<p>
+  <a href="/jansson/">Jansson</a> 2.6 was released already on
+  2014-02-11, but I totally forgot to blog about it or even update
+  Jansson's web page. Sorry about that!
+</p>
+<p>
+  Jansson 2.6 is mainly a security release, changing the hash function
+  that is used by Jansson's hashtable implementation. Other changes
+  include minor documentation and build system corrections. For a more
+  comprehensive list of changes, see
+  the <a href="http://jansson.readthedocs.org/en/2.6/changes.html#version-2-6">release
+  notes</a>.
+</p>
+
+<h3>New hash function</h3>
+<p>
+  Jansson's old hash function was vulnerable to a denial of service
+  attack. By using specially crafted keys, the attacker could reduce
+  the performance of most object operations. For example, decoding a
+  JSON text with such crafted keys would take tens of seconds for a
+  relatively small file.
+</p>
+<p>
+  Jansson 2.6 changes the hash function to Bob Jenkins' lookup3, which
+  supports <em>seeding</em>. As no non-cryptographic hash function is
+  immune to the key crafting problem, the hash function is seeded by
+  random data when the first JSON object is created, either by
+  explicitly calling
+  <a href="https://jansson.readthedocs.org/en/2.6/apiref.html#json_object"><code>json_object()</code></a>,
+  or by implicitly creating a new object e.g. by decoding a JSON text
+  or
+  calling <a href="https://jansson.readthedocs.org/en/2.6/apiref.html#json_pack"><code>json_pack()</code></a>.
+</p>
+<p>
+  The purpose of seeding is to make the hash function yield different
+  results on each program run. This makes it virtually impossible to
+  launch a DoS attack anymore.
+</p>
+<p>
+  The hardest part of seeding is how to actually generate random data
+  in a thread-safe manner. Jansson uses <code>/dev/urandom</code> if
+  it's available, or <code>CryptGenRandom()</code> on Windows. If
+  neither are available, a combination of a microsecond precision
+  timestamp and process ID are used as the seed. Seed generation is
+  guarded by architecture dependent lock-free operations to ensure
+  thread safety.
+</p>
+<p>
+  A new
+  function, <a href="https://jansson.readthedocs.org/en/2.6/apiref.html#json_object_seed"><code>json_object_seed()</code></a>,
+  is also exposed, to make it possible for the user to initiate the
+  seeding, e.g. before spawning any threads.
+</p>
