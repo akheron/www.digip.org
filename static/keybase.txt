@@ -1,0 +1,58 @@
+==================================================================
+https://keybase.io/akheron
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://www.digip.org
+  * I am akheron (https://keybase.io/akheron) on keybase.
+  * I have a public key with fingerprint 21DA 7E1F AB1B 03AE DF65  2FF2 3782 02A6 D4E3 9B36
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "21da7e1fab1b03aedf652ff2378202a6d4e39b36",
+            "host": "keybase.io",
+            "key_id": "378202a6d4e39b36",
+            "uid": "39719fa3804cca2d0574e7b5aa381100",
+            "username": "akheron"
+        },
+        "service": {
+            "hostname": "www.digip.org",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1413486828,
+    "expire_in": 157680000,
+    "prev": "ef7f1782948c255c14436920bb985abbcf34db8c2d1858fc0536c5001196828f",
+    "seqno": 3,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFtkT1rFUEUhtfrBxpQTGfrFFaXy3zuzm5lYyq1CmJ3mc+949Wdze7m3oSQxiJY
+WFgGbIKFNiqCYKudhQlYiD9A/4BYaOuZGDunGeY9z/uec5gnF09no9Xi4ej5l+9P
+81OfPvzU2fr1K793kI52G1U7aO6OLx+a2nVtF5oBVYgSqwpHvNJEY6ac9bmg3lNW
+SIqpyi13rNQsR2M0i31yQIxWvZuECBo8psGC+h9+82+hLEjpFZOYG6OoxaLgrtBC
+gUQIxgnsXdeoBw5oNZ+5LjZod4xAXATj0sip8wmwXC4nNtShncSuBm/bxSGaeB9K
+s2Foq+Qctttj1OnpSchUh8bC3mBYuK4P0KEiQJohpFTCCeMyl1SOkdtqQ+emIRGi
+yCWGk9q4BUQ6X3gCm5ZcGiqEIZyzvKRY61IKpbXxjFsNNUukkN5gwXIjMCakTOke
+pbU2mogqBmOqGiL7UDdq2Owc2l15tHYmWx1l586O0s9lKxcu//vPw5vZwbNLR0fj
+jXvfFvM37+7cun3+1d0bL7KDz++/PkYvfxzuvf6133+8tv72Ktn/Aw==
+=2/xH
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/akheron
+
+==================================================================
