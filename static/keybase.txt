@@ -6,18 +6,27 @@ I hereby claim:
 
   * I am an admin of http://www.digip.org
   * I am akheron (https://keybase.io/akheron) on keybase.
-  * I have a public key with fingerprint 21DA 7E1F AB1B 03AE DF65  2FF2 3782 02A6 D4E3 9B36
+  * I have a public key with fingerprint B5D6 953E 6D50 59ED 7ADA  0F2F D365 7D24 D058 434C
 
 To claim this, I am signing this object:
 
 {
     "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.7.2"
+        },
         "key": {
-            "fingerprint": "21da7e1fab1b03aedf652ff2378202a6d4e39b36",
+            "fingerprint": "b5d6953e6d5059ed7ada0f2fd3657d24d058434c",
             "host": "keybase.io",
-            "key_id": "378202a6d4e39b36",
+            "key_id": "D3657D24D058434C",
             "uid": "39719fa3804cca2d0574e7b5aa381100",
             "username": "akheron"
+        },
+        "merkle_root": {
+            "ctime": 1413536257,
+            "hash": "ef51dcf4729e30683fc3b71c657f26c1f494987433f5f1c2dbeb74743e7fbb1ed8dc3203c94b1691e56082680a5519ee9f50bf74c24121e67dd7d69d2b68206b",
+            "seqno": 80467
         },
         "service": {
             "hostname": "www.digip.org",
@@ -26,28 +35,43 @@ To claim this, I am signing this object:
         "type": "web_service_binding",
         "version": 1
     },
-    "ctime": 1413486828,
+    "ctime": 1413536376,
     "expire_in": 157680000,
-    "prev": "ef7f1782948c255c14436920bb985abbcf34db8c2d1858fc0536c5001196828f",
-    "seqno": 3,
+    "prev": "19edada10ee0f7a93acc1d3f7551790152a18a2fb4e077ff8d3caebdc2a9fc40",
+    "seqno": 6,
     "tag": "signature"
 }
 
 with the aforementioned key, yielding the PGP signature:
 
 -----BEGIN PGP MESSAGE-----
-Version: GnuPG v1
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-owFtkT1rFUEUhtfrBxpQTGfrFFaXy3zuzm5lYyq1CmJ3mc+949Wdze7m3oSQxiJY
-WFgGbIKFNiqCYKudhQlYiD9A/4BYaOuZGDunGeY9z/uec5gnF09no9Xi4ej5l+9P
-81OfPvzU2fr1K793kI52G1U7aO6OLx+a2nVtF5oBVYgSqwpHvNJEY6ac9bmg3lNW
-SIqpyi13rNQsR2M0i31yQIxWvZuECBo8psGC+h9+82+hLEjpFZOYG6OoxaLgrtBC
-gUQIxgnsXdeoBw5oNZ+5LjZod4xAXATj0sip8wmwXC4nNtShncSuBm/bxSGaeB9K
-s2Foq+Qctttj1OnpSchUh8bC3mBYuK4P0KEiQJohpFTCCeMyl1SOkdtqQ+emIRGi
-yCWGk9q4BUQ6X3gCm5ZcGiqEIZyzvKRY61IKpbXxjFsNNUukkN5gwXIjMCakTOke
-pbU2mogqBmOqGiL7UDdq2Owc2l15tHYmWx1l586O0s9lKxcu//vPw5vZwbNLR0fj
-jXvfFvM37+7cun3+1d0bL7KDz++/PkYvfxzuvf6133+8tv72Ktn/Aw==
-=2/xH
+owFVkn9QFGUYxw8k0iMFHHIsKa6DgemCa3/vLQFDcDLJOCUk/WCUa3ffd+8Wzttj
+7+C47ADjh6bTDFOBWg1TYIgXohOSlKWlQ4SkNJFUhJHjSUP+Ck2GYqLeRZpy/9r3
+fT7P93m+z/M2LV+iCw8bgYGkr5/LXR82NCXoNmaPVW01CgrwG9O3GkWnDF1e7c/F
+b4HGdGMZ9Au8B5plxeBSADSXegyLTKqxEqoeWXEhCjOzZsIYSNVwLVmSXXaoulVZ
+0zIKNGA4moQMoDGag4DlAY9JhARIhmYBQQGMtlAkJSJJh+Lx3lHVuKBpkwG6tWq8
+laCst/lcFKtYCJAci3MST1owShR5AumxFGQFmkdXOI5hGuiB6qIlvswBVdQ2ancL
+VMuc0KYqyoJn0StrBE7hJE0yBM2ihniPA+VAicaBKFEswUESYyykJJICi4uoIYlg
+RFyiOIqzsBRJSrSEiwQQoMBS6AxZSRBwCCxAJAmMFDlKwBkOhzSDWQjGgvE0jXMQ
+chKNCRJLiQSFEzhkWABYNDRACIyFwBgBOfDAcpdiTEceGTagHdVKWYRa29rQFr35
+fD4zkO2y26yodpTkVhWvIipOFHJ4ve50zbTX715AoWDzdN1WsQmyC6Cd/X+pOELv
+HAjJMqlGWOWWVWiTNYJmkQP0aXVgJdJEVgBaLo5BiEksz5G8KOKAlFjkkuUwnCZ4
+3MITkkBBjGUlyQJIkYcCEAmek0QK+88mquTl7UjSI9tdvLdChcbAK+HxEbqwcF3k
+XeHaq9Xpl8X8+5RrJmN0HzQ8m/JSaNWpvtLHR4PL9ojC2PbA9fn5jIO99ROeR1ZW
+mSbA20WNCT9GEjcH9MRgaCDzbn3m5MU/rsavbYyZLikPrvvrwG+hlOox7PzOqPv0
+5xtqTnZWx0UE972Wui3jbP6MJwU/Z1vRXNLYWvz8iWhdd95oXdwzORn2ttzLXA/z
+We1bX/10tXTso5nBE8OJsfSaove3TcX1lgrmzh79cVth0dLhyKOFmwJU3bE9WR2P
+JSXkuDPTdJv3m9N2NA5emq4gdl1rGcnNTV0Lo3r2f3kkP8IjzN8Ezav2vdnzRl5e
+1YN8smliaHLk4O/NySVVXXV+6ovJupPj5cn3v3PBnzSXn727tf3R9qj+2Lx+6zkl
+6/OHXl5Z/HNV9OhO8s8+7NXt120vPHXcGiQMLFF9+tdvQuEdRWcl/tjQkehfCu75
+5PUDCQ9vGCWW5jYcCo37D8vCkIInt3w/mmaPuDxV66wZq7xknZs1XFxdfaa1s5x5
+N9kf1jyZFjcRfLIvVL+k1t3StV33Q2z3mRfz+DbBZ7pW0n/IP3ilOPvW8mwD/+Gt
+odkrh4OGysJ17xlOmQrSVmQ1jT8wEPt0fHRiUrqV3tAkMpucNXx1m359l1IfaI8+
+7Vid7+v9NpGXdHP3Nk5/N4s/cWN4V0e9abPq7Nj9996P8Ui/Y82nBUy878LenBlT
+acbRG90b5X8A
+=eEX1
 -----END PGP MESSAGE-----
 
 And finally, I am proving ownership of this host by posting or
