@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Brainfuck interpreter</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <script src="main.js"></script>
+    <script>
+      var app = Elm.Main.fullscreen();
+      app.ports.setValue.subscribe(function(data) {
+        var id = data[0];
+        var value = data[1];
+        var element = document.getElementById(id);
+        if(element) {
+          element.value = value;
+        }
+      });
+    </script>
+  </body>
+</html>

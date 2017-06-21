@@ -1,0 +1,64 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: #ACC7D6;
+    color: #193645;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+section {
+    padding: 1em;
+}
+
+a {
+    color: #28536B;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin: 0 0 0.5em 0;
+    font-weight: bold;
+}
+
+textarea, .output .output {
+    display: block;
+    margin: 1em 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1em;
+    background-color: #F6F0ED;
+    color: #193645;
+    border: 0;
+    box-shadow: 0 0 5px #193645;
+    width: 100%;
+}
+
+textarea {
+    height: 8em;
+}
+
+.output.empty {
+    display: none;
+}
+
+.output .heading {
+    font-weight: bold;
+}
+
+.output .output {
+    min-height: 8em;
+}
+
+.controls {
+    text-align: center;
+}
+
+.controls button {
+    display: inline-block;
+    font-size: 24px;
+    padding: 20px;
+    margin: 10px;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #193645;
+}
