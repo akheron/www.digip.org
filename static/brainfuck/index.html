@@ -10,15 +10,7 @@
   <body>
     <script src="index.js"></script>
     <script>
-      var app = Elm.Brainfuck.Main.fullscreen();
-      app.ports.setValue.subscribe(function(data) {
-        var id = data[0];
-        var value = data[1];
-        var element = document.getElementById(id);
-        if(element) {
-          element.value = value;
-        }
-      });
+      Elm.Brainfuck.Main.fullscreen();
     </script>
   </body>
 </html>
